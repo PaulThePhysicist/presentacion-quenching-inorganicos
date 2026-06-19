@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quenching en Materiales Luminiscentes Inorgánicos</title>
+
+<!-- Reveal.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    packages: {'[+]': ['boldsymbol']}
+  },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:       #07070f;
+  --bg2:      #0d0d1a;
+  --bg3:      #111125;
+  --cyan:     #00d4ff;
+  --cyan-dim: #0096b8;
+  --white:    #e8eaf0;
+  --dim:      #8892a4;
+  --green:    #2ECC71;
+  --amber:    #F39C12;
+  --red:      #E74C3C;
+  --purple:   #a78bfa;
+  --font-h:   'Syne', sans-serif;
+  --font-b:   'DM Sans', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+}
+
+/* ═══════════════════════════════════════════════
+   REVEAL OVERRIDES
+═══════════════════════════════════════════════ */
+.reveal-viewport { background: var(--bg); }
+.reveal { font-family: var(--font-b); color: var(--white); font-size: 18px; }
+.reveal .slides { text-align: left; }
+.reveal .slides section { padding: 0; height: 100%; box-sizing: border-box; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--font-h);
+  text-transform: none;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+.reveal .progress { height: 3px; color: var(--cyan); }
+.reveal .controls { color: var(--cyan-dim); }
+.reveal .slide-number { color: var(--dim); font-family: var(--font-m); font-size: 12px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; }
+.reveal .slide-number-a { color: var(--white); }
+.reveal .slide-number-delimiter { color: var(--dim); margin: 0 2px; }
+.reveal .slide-number-b { color: var(--dim); }
+
+
+/* fragment defaults */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .fragment {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+    transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1),
+                transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                filter 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal .fragment.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal .fragment { opacity: 0; transition: opacity 0.01ms; }
+  .reveal .fragment.visible { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED LAYOUT HELPERS
+═══════════════════════════════════════════════ */
+.slide-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  padding: 48px 56px 36px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+.slide-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  color: var(--white);
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+.slide-subtitle {
+  font-size: 0.88rem;
+  color: var(--cyan);
+  font-family: var(--font-m);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; flex: 1; }
+
+/* ═══════════════════════════════════════════════
+   CARDS / CALLOUTS
+═══════════════════════════════════════════════ */
+.card {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.card-cyan { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.04); }
+.card-green { border-color: rgba(46,204,113,0.3); background: rgba(46,204,113,0.04); }
+.card-amber { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.05); }
+.card-red   { border-color: rgba(231,76,60,0.3);  background: rgba(231,76,60,0.05); }
+
+.card-label {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+.card-title {
+  font-family: var(--font-h);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.callout {
+  background: rgba(0,212,255,0.08);
+  border-left: 3px solid var(--cyan);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+.callout-amber { border-color: var(--amber); background: rgba(243,156,18,0.06); }
+.callout-red   { border-color: var(--red);   background: rgba(231,76,60,0.06); }
+.callout-green { border-color: var(--green); background: rgba(46,204,113,0.06); }
+
+.alert-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(231,76,60,0.12);
+  border: 1px solid rgba(231,76,60,0.4);
+  color: #ff7b6e;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-family: var(--font-m);
+}
+
+/* ═══════════════════════════════════════════════
+   TABLES
+═══════════════════════════════════════════════ */
+.sci-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.sci-table th {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,212,255,0.25);
+  white-space: nowrap;
+}
+.sci-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top;
+  line-height: 1.4;
+}
+.sci-table tr:last-child td { border-bottom: none; }
+.sci-table tr:hover td { background: rgba(255,255,255,0.02); }
+.td-num { font-family: var(--font-m); color: var(--cyan); font-size: 0.82rem; }
+.td-note { color: var(--dim); font-size: 0.75rem; }
+.glow-cell { color: var(--cyan) !important; text-shadow: 0 0 12px rgba(0,212,255,0.6); font-family: var(--font-m); }
+
+/* semaphore cells */
+.cell-g { background: rgba(46,204,113,0.18);  color: #5eda94; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-a { background: rgba(243,156,18,0.18);  color: #f5b942; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-r { background: rgba(231,76,60,0.18);   color: #f07068; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-g.lit { background: rgba(46,204,113,0.42);  box-shadow: 0 0 10px rgba(46,204,113,0.4); }
+.cell-a.lit { background: rgba(243,156,18,0.42);  box-shadow: 0 0 10px rgba(243,156,18,0.4); }
+.cell-r.lit { background: rgba(231,76,60,0.42);   box-shadow: 0 0 10px rgba(231,76,60,0.4); }
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY UTILS
+═══════════════════════════════════════════════ */
+.text-cyan   { color: var(--cyan); }
+.text-green  { color: var(--green); }
+.text-amber  { color: var(--amber); }
+.text-red    { color: var(--red); }
+.text-dim    { color: var(--dim); }
+.text-mono   { font-family: var(--font-m); }
+.text-sm     { font-size: 0.8rem; }
+.text-xs     { font-size: 0.7rem; }
+.text-lg     { font-size: 1.05rem; }
+.bold        { font-weight: 700; }
+.mb4  { margin-bottom: 4px; }
+.mb8  { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.mb16 { margin-bottom: 16px; }
+.mb24 { margin-bottom: 24px; }
+.mt8  { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+
+/* prefers-reduced-motion global */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* eq glow */
+.eq-glow {
+  display: block;
+  text-align: center;
+  padding: 16px 0;
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+.eq-glow mjx-container { filter: drop-shadow(0 0 6px rgba(0,212,255,0.4)); }
+
+/* accent rule */
+.rule-cyan { height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); margin-bottom: 20px; border: none; }
+
+/* decorative corner line */
+.slide-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 60px;
+  background: linear-gradient(180deg, var(--cyan), transparent);
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 1 — HERO
+═══════════════════════════════════════════════ */
+#s1 { background: var(--bg); overflow: hidden; }
+#s1 .slide-inner::before { display: none; }
+#hero-canvas { position: absolute; inset: 0; z-index: 0; }
+.hero-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  justify-content: center; height: 100%;
+  padding: 56px 72px;
+}
+.hero-eyebrow {
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.hero-title {
+  font-family: var(--font-h);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--white);
+  max-width: 800px;
+  margin-bottom: 18px;
+}
+.hero-title span { color: var(--cyan); }
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--dim);
+  margin-bottom: 52px;
+  font-weight: 300;
+}
+.hero-author {
+  display: flex; align-items: center; gap: 16px;
+}
+.hero-author-line {
+  width: 32px; height: 1px;
+  background: var(--cyan);
+}
+.hero-author-text {
+  font-family: var(--font-m);
+  font-size: 0.75rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+.hero-author-text strong { color: var(--white); font-style: normal; }
+.hero-year {
+  position: absolute;
+  bottom: 40px; right: 72px;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 2 — PROBLEMA CENTRAL
+═══════════════════════════════════════════════ */
+.problem-eq-wrap {
+  background: var(--bg3);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,212,255,0.06);
+}
+.problem-eq-label {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.bullet-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.bullet-row:last-child { border-bottom: none; }
+.bullet-num {
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  min-width: 24px;
+  padding-top: 2px;
+}
+.bullet-text { font-size: 0.88rem; line-height: 1.5; }
+.bullet-text strong { color: var(--white); }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 3 — TAXONOMÍA
+═══════════════════════════════════════════════ */
+.tax-table { flex: 1; }
+.tax-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 10px 0;
+  align-items: center;
+}
+.tax-row.header {
+  border-bottom: 1px solid rgba(0,212,255,0.2);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+.tax-row.header span {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.tax-mech { font-weight: 600; font-size: 0.85rem; }
+.tax-type {
+  display: inline-block;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.type-org  { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.type-t    { background: rgba(231,76,60,0.12);   color: #f07068;       border: 1px solid rgba(231,76,60,0.3); }
+.type-c    { background: rgba(0,212,255,0.1);    color: var(--cyan);   border: 1px solid rgba(0,212,255,0.25); }
+.type-tr   { background: rgba(243,156,18,0.12);  color: #f5b942;       border: 1px solid rgba(243,156,18,0.3); }
+.type-h    { background: rgba(46,204,113,0.1);   color: #5eda94;       border: 1px solid rgba(46,204,113,0.25); }
+.tax-var   { font-family: var(--font-m); font-size: 0.78rem; color: var(--dim); }
+.tax-mat   { font-size: 0.8rem; color: var(--dim); }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 4 — MOTT-SEITZ
+═══════════════════════════════════════════════ */
+.ms-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; flex: 1; align-items: start; }
+#ms-svg { width: 100%; }
+.ms-eq-box {
+  background: var(--bg3);
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.ms-points { display: flex; flex-direction: column; gap: 10px; }
+.ms-point {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.82rem;
+}
+.ms-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 9 — ZnS PARADOX
+═══════════════════════════════════════════════ */
+.paradox-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  flex: 1;
+  align-items: start;
+}
+.paradox-side {
+  border-radius: 12px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.paradox-left  { background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.25); }
+.paradox-right { background: rgba(0,212,255,0.05);   border: 1px solid rgba(0,212,255,0.2); }
+.paradox-label {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.paradox-title {
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.paradox-arrow {
+  font-size: 2.4rem;
+  text-align: center;
+  font-weight: 800;
+  line-height: 1;
+}
+.paradox-desc {
+  font-size: 0.82rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.paradox-stat {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+}
+.paradox-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 8px;
+}
+.paradox-vs {
+  font-family: var(--font-h);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--dim);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.15em;
+  transform: rotate(180deg);
+}
+.paradox-divider-line { width: 1px; flex: 1; background: rgba(255,255,255,0.08); }
+.paradox-truth {
+  background: rgba(0,212,255,0.06);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 8px;
+  padding: 12px 18px;
+  text-align: center;
+  font-family: var(--font-h);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 10 — DECISION MATRIX
+═══════════════════════════════════════════════ */
+.matrix-wrap { flex: 1; overflow: auto; }
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.matrix-table th {
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 6px 5px;
+  border-bottom: 1px solid rgba(0,212,255,0.2);
+  text-align: center;
+  white-space: nowrap;
+}
+.matrix-table th:first-child { text-align: left; padding-left: 8px; }
+.matrix-table td:first-child {
+  font-size: 0.73rem;
+  padding: 5px 8px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+  color: var(--dim);
+}
+.matrix-table tr:last-child td { border-bottom: none; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 11 — BRIDGE
+═══════════════════════════════════════════════ */
+.bridge-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.bridge-node {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.bridge-node-title {
+  font-family: var(--font-h);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bridge-connector {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+.bridge-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  position: relative;
+}
+.bridge-line::after {
+  content: 'η = kr/(kr + Σk_nri)';
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  color: var(--cyan);
+  white-space: nowrap;
+  opacity: 0.7;
+}
+.conn-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.conn-num {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.conn-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; }
+.conn-body  { font-size: 0.78rem; color: var(--dim); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 12 — TIMELINE
+═══════════════════════════════════════════════ */
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  flex: 1;
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 50px; right: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-dim), var(--purple));
+  z-index: 0;
+}
+.timeline-item { display: flex; flex-direction: column; align-items: center; padding-top: 0; }
+.timeline-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  position: relative; z-index: 1;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.timeline-dot.d1 { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,212,255,0.5); }
+.timeline-dot.d2 { border-color: var(--amber); box-shadow: 0 0 12px rgba(243,156,18,0.5); }
+.timeline-dot.d3 { border-color: var(--purple); box-shadow: 0 0 12px rgba(167,139,250,0.5); }
+.timeline-card { width: 100%; padding: 16px; box-sizing: border-box; }
+.timeline-phase {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.timeline-title { font-family: var(--font-h); font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+.timeline-body  { font-size: 0.78rem; color: var(--dim); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 13 — CIERRE
+═══════════════════════════════════════════════ */
+.close-statement {
+  font-family: var(--font-h);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 780px;
+  margin-bottom: 32px;
+  color: var(--white);
+}
+.close-statement em { color: var(--cyan); font-style: normal; }
+.close-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.close-num {
+  font-family: var(--font-m);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cyan);
+  opacity: 0.3;
+  margin-bottom: 6px;
+}
+.close-body { font-size: 0.82rem; line-height: 1.55; color: var(--dim); }
+.close-body strong { color: var(--white); }
+.close-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+
+/* ═══════════════════════════════════════════════
+   2x2 GRID CARDS
+═══════════════════════════════════════════════ */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE BG DECORATIONS
+═══════════════════════════════════════════════ */
+.bg-glow-tl {
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.bg-glow-br {
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════
+   SLIDE 5 — PEROVSKITAS HUD SPECIFICS
+   ═══════════════════════════════════════════════ */
+.perov-layout-grid {
+  display: grid;
+  grid-template-columns: 1.28fr 1fr;
+  gap: 24px;
+  flex: 1;
+  width: 100%;
+  align-items: stretch;
+  margin-top: 10px;
+}
+.perov-visual-card, .perov-table-card {
+  background: radial-gradient(circle at 50% 0%, rgba(13, 13, 26, 0.6) 0%, rgba(7, 7, 15, 0.95) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(13, 13, 26, 0.6) 0%, rgba(7, 7, 15, 0.95) 100%),
+    radial-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 0);
+  background-size: 100% 100%, 14px 14px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 22px 26px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 440px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.perov-visual-title {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 0;
+  border-left: 3px solid var(--cyan);
+  padding-left: 10px;
+}
+.perov-svg-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
+.perov-hud-log {
+  background: rgba(7, 7, 15, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-family: var(--font-m);
+  font-size: 0.82rem;
+  color: var(--cyan);
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+}
+.perov-log-prompt {
+  animation: perov-blink 1s step-end infinite;
+  font-weight: bold;
+}
+@keyframes perov-blink {
+  from, to { color: transparent }
+  50% { color: var(--cyan) }
+}
+.perov-warning-hud {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(231, 76, 60, 0.07);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+  border-radius: 6px;
+  padding: 12px 20px;
+  margin-top: 22px;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.05);
+}
+.perov-warn-tag {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  background: rgba(231, 76, 60, 0.2);
+  color: #ff7b6e;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(231, 76, 60, 0.4);
+  flex-shrink: 0;
+  text-shadow: 0 0 6px rgba(231, 76, 60, 0.5);
+  animation: perov-pulse-warn 2.5s ease-in-out infinite;
+}
+@keyframes perov-pulse-warn {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; border-color: rgba(231, 76, 60, 0.8); background: rgba(231, 76, 60, 0.35); }
+}
+.perov-warn-text {
+  font-size: 0.95rem;
+  color: #ff7b6e;
+  line-height: 1.4;
+}
+.perov-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin-bottom: auto;
+}
+.perov-table th {
+  font-family: var(--font-m);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+.perov-table td {
+  padding: 18px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+.perov-table tr {
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+}
+.perov-table tr:hover td {
+  background: rgba(255, 255, 255, 0.015);
+}
+.perov-table tr.row-focused {
+  background-color: rgba(255, 255, 255, 0.035) !important;
+}
+.perov-table tr.row-focused td {
+  border-bottom-color: rgba(0, 212, 255, 0.2);
+}
+.perov-table tr.dimmed {
+  opacity: 0.25;
+}
+
+/* HUD overlay elements (crosshairs and brackets) */
+.corner-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  pointer-events: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.cb-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.cb-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.cb-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.cb-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+.hud-cross {
+  position: absolute;
+  font-family: var(--font-m);
+  font-size: 0.75rem;
+  color: rgba(0, 212, 255, 0.25);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.hc-tl { top: 12px; left: 12px; }
+.hc-tr { top: 12px; right: 12px; }
+.hc-bl { bottom: 12px; left: 12px; }
+.hc-br { bottom: 12px; right: 12px; }
+
+/* HUD pills with LED indicator */
+.hud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+}
+.pill-g { color: #5eda94; background: rgba(46, 204, 113, 0.1); }
+.pill-r { color: #f07068; background: rgba(231, 76, 60, 0.1); }
+.pill-a { color: #f5b942; background: rgba(243, 156, 18, 0.1); }
+.pill-cyan { color: var(--cyan); background: rgba(0, 212, 255, 0.1); }
+.hud-pill .led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  display: inline-block;
+}
+
+/* Hover effects for HUD cards */
+.perov-visual-card:hover, .perov-table-card:hover {
+  border-color: rgba(0, 212, 255, 0.25) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 212, 255, 0.05) !important;
+}
+.perov-visual-card:hover .corner-bracket, .perov-table-card:hover .corner-bracket {
+  border-color: rgba(0, 212, 255, 0.8) !important;
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.4) !important;
+}
+.perov-visual-card:hover .hud-cross, .perov-table-card:hover .hud-cross {
+  color: rgba(0, 212, 255, 0.65) !important;
+}
+
+/* SVG interactive styling */
+.perov-panel {
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.perov-focus-3d #panel-confined {
+  opacity: 0.25;
+  filter: blur(1px);
+}
+.perov-focus-confined #panel-3d {
+  opacity: 0.25;
+  filter: blur(1px);
+}
+.perov-focus-3d #panel-3d rect {
+  stroke: rgba(243,156,18,0.3) !important;
+  fill: rgba(243,156,18,0.02) !important;
+}
+.perov-focus-confined #panel-confined rect {
+  stroke: rgba(0,212,255,0.3) !important;
+  fill: rgba(0,212,255,0.02) !important;
+}
+
+/* Exciton vibration animation */
+@keyframes perov-vibrate-e {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-0.8px, 0.5px); }
+  66% { transform: translate(0.8px, -0.5px); }
+}
+@keyframes perov-vibrate-h {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(0.8px, -0.5px); }
+  66% { transform: translate(-0.8px, 0.5px); }
+}
+@keyframes perov-dissociate-e {
+  0% { transform: translate(0, 0); opacity: 1; }
+  50% { transform: translate(-20px, -10px); opacity: 0.7; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+@keyframes perov-dissociate-h {
+  0% { transform: translate(0, 0); opacity: 1; }
+  50% { transform: translate(20px, 10px); opacity: 0.7; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+@keyframes perov-photon-propagate {
+  to { stroke-dashoffset: -20; }
+}
+
+.perov-vibrate-e-anim {
+  transform-origin: 100px 145px;
+  animation: perov-vibrate-e 0.12s linear infinite;
+}
+.perov-vibrate-h-anim {
+  transform-origin: 170px 145px;
+  animation: perov-vibrate-h 0.12s linear infinite;
+}
+.perov-dissoc-e-anim {
+  transform-origin: 100px 145px;
+  animation: perov-dissociate-e 2.0s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.perov-dissoc-h-anim {
+  transform-origin: 170px 145px;
+  animation: perov-dissociate-h 2.0s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.perov-photon-wave {
+  stroke-dasharray: 20;
+  animation: perov-photon-propagate 1.2s linear infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .perov-vibrate-e-anim, .perov-vibrate-h-anim, .perov-dissoc-e-anim, .perov-dissoc-h-anim, .perov-photon-wave, .perov-warn-tag {
+    animation: none !important;
+    transform: none !important;
+  }
+  .perov-photon-wave {
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+</style>
+
+<style>
+/* Enable navigation controls even if there is only one slide */
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-right {
+  opacity: 0.8 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section>
+<div class="slide-inner">
+  <div class="bg-glow-tl"></div>
+  <div class="bg-glow-br"></div>
+  <div class="slide-subtitle">Familia 1</div>
+  <h2 class="slide-title">Perovskitas Haluro</h2>
+  <hr class="rule-cyan">
+
+  <!-- Layout: Rejilla HUD de dos columnas -->
+  <div class="perov-layout-grid">
+    <!-- Columna Izquierda: Diagrama Físico Explicativo -->
+    <div class="perov-visual-card">
+      <div class="corner-bracket cb-tl"></div>
+      <div class="corner-bracket cb-tr"></div>
+      <div class="corner-bracket cb-bl"></div>
+      <div class="corner-bracket cb-br"></div>
+      
+      <!-- Cruces de esquina (+) -->
+      <span class="hud-cross hc-tl">+</span>
+      <span class="hud-cross hc-tr">+</span>
+      <span class="hud-cross hc-bl">+</span>
+      <span class="hud-cross hc-br">+</span>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 6px;">
+        <div class="perov-visual-title">Física de Excitones: Recombinación vs Disociación</div>
+        <span style="font-family: var(--font-m); font-size: 0.6rem; color: var(--dim); letter-spacing: 0.08em;">SYS.DIAG.05 // EXCITONIC</span>
+      </div>
+
+      <div class="perov-svg-wrap">
+        <svg id="perov-svg" viewBox="0 0 540 300" xmlns="http://www.w3.org/2000/svg" style="background:transparent; width:100%; height:auto;">
+          <defs>
+            <filter id="glow-cyan" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glow-green" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glow-red" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="glow-amber" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Separador vertical central -->
+          <line x1="270" y1="15" x2="270" y2="285" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4,4" stroke-width="1.5" />
+
+          <!-- ================= LADO IZQUIERDO: 3D BULK (DISOCIACIÓN) ================= -->
+          <g id="panel-3d" class="perov-panel">
+            <rect x="15" y="15" width="240" height="268" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.02)" rx="6"/>
+            <text x="135" y="38" fill="var(--dim)" font-size="13" font-family="var(--font-m)" font-weight="700" text-anchor="middle" letter-spacing="0.05em">ESTRUCTURA 3D BULK</text>
+            
+            <!-- Bandas de Energía -->
+            <!-- Conducción -->
+            <rect x="30" y="55" width="210" height="24" fill="rgba(231,76,60,0.05)" stroke="rgba(231,76,60,0.18)" stroke-width="1"/>
+            <text x="135" y="71" fill="#ff7b6e" font-size="11" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">BANDA DE CONDUCCIÓN (BC)</text>
+            <!-- Valencia -->
+            <rect x="30" y="225" width="210" height="24" fill="rgba(0,212,255,0.03)" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+            <text x="135" y="241" fill="var(--cyan)" font-size="11" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">BANDA DE VALENCIA (BV)</text>
+
+            <!-- Excitón en disociación -->
+            <g id="exciton-3d-group">
+              <!-- Enlace Coulombiano débil (dashed line/spring) -->
+              <line id="binding-3d" x1="100" y1="145" x2="170" y2="145" stroke="rgba(255,255,255,0.25)" stroke-dasharray="2,3" stroke-width="1.2"/>
+              <!-- Electrón (e-) -->
+              <circle id="electron-3d" cx="100" cy="145" r="10" fill="#ff7b6e" stroke="#ffffff" stroke-width="1.2" filter="url(#glow-red)"/>
+              <text x="100" y="148.5" fill="#ffffff" font-size="10" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">e⁻</text>
+              <!-- Hueco (h+) -->
+              <circle id="hole-3d" cx="170" cy="145" r="10" fill="var(--cyan)" stroke="#ffffff" stroke-width="1.2" filter="url(#glow-cyan)"/>
+              <text x="170" y="148.5" fill="#07070f" font-size="10" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">h⁺</text>
+            </g>
+
+            <!-- Flechas de agitación térmica kBT -->
+            <path id="thermal-arrow-l" d="M 82 145 L 62 145 M 71 140 L 62 145 L 71 150" stroke="var(--amber)" stroke-width="1.5" fill="none"/>
+            <path id="thermal-arrow-r" d="M 188 145 L 208 145 M 199 140 L 208 145 L 199 150" stroke="var(--amber)" stroke-width="1.5" fill="none"/>
+            <text x="135" y="122" fill="var(--amber)" font-size="12" font-family="var(--font-m)" text-anchor="middle" font-weight="700">k_BT &approx; E_b (26 meV)</text>
+            <text x="135" y="165" fill="var(--dim)" font-size="10.5" font-family="var(--font-b)" text-anchor="middle">Disociación Térmica a 300 K</text>
+
+            <!-- Defectos no radiativos / Quenching -->
+            <g id="quench-trap-group" opacity="0.85">
+              <circle cx="135" cy="192" r="8" fill="#07070f" stroke="var(--red)" stroke-dasharray="2,1.5" stroke-width="1.5"/>
+              <text x="135" y="195.5" fill="var(--red)" font-size="11.5" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">&times;</text>
+              <text x="149" y="195.5" fill="var(--red)" font-size="10.5" font-family="var(--font-m)" text-anchor="start">Trampa / Quenching</text>
+              <!-- Flechas de desintegración no radiativa (calor) -->
+              <path d="M 103 154 L 127 184" stroke="var(--red)" stroke-dasharray="2,2" stroke-width="1.2" fill="none"/>
+              <path d="M 167 154 L 143 184" stroke="var(--red)" stroke-dasharray="2,2" stroke-width="1.2" fill="none"/>
+            </g>
+          </g>
+
+          <!-- ================= LADO DERECHO: CONFINAMIENTO CUÁNTICO (NC / 2D) ================= -->
+          <g id="panel-confined" class="perov-panel">
+            <rect x="285" y="15" width="240" height="268" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.02)" rx="6"/>
+            <text x="405" y="38" fill="var(--cyan)" font-size="13" font-family="var(--font-m)" font-weight="700" text-anchor="middle" letter-spacing="0.05em">CONFINAMIENTO CUÁNTICO</text>
+
+            <!-- Barreras de potencial y pozo cuántico -->
+            <line x1="330" y1="50" x2="330" y2="230" stroke="rgba(0,212,255,0.4)" stroke-width="2" stroke-dasharray="4,2"/>
+            <line x1="480" y1="50" x2="480" y2="230" stroke="rgba(0,212,255,0.4)" stroke-width="2" stroke-dasharray="4,2"/>
+            <text id="pozo-subtext" x="405" y="246" fill="var(--dim)" font-size="10.5" font-family="var(--font-m)" text-anchor="middle">POZO CUÁNTICO / NANOCRISTAL</text>
+
+            <!-- Niveles de Energía discretizados -->
+            <line x1="330" y1="90" x2="480" y2="90" stroke="rgba(231,76,60,0.5)" stroke-width="1.5"/>
+            <text x="320" y="93.5" fill="#ff7b6e" font-size="11" font-family="var(--font-m)" font-weight="bold" text-anchor="end">E_e</text>
+            
+            <line x1="330" y1="190" x2="480" y2="190" stroke="rgba(0,212,255,0.5)" stroke-width="1.5"/>
+            <text x="320" y="193.5" fill="var(--cyan)" font-size="11" font-family="var(--font-m)" font-weight="bold" text-anchor="end">E_h</text>
+
+            <!-- 1. CAPA INTERACTIVA: 0D Confinement (Quantum Dot) -->
+            <circle id="visual-nc-dot" cx="405" cy="145" r="32" fill="none" stroke="rgba(46,204,113,0.35)" stroke-dasharray="3,3" stroke-width="1.5" opacity="0" style="transition: opacity 0.3s ease;"/>
+
+            <!-- 2. CAPA INTERACTIVA: 2D Well Visuals (layered sheets) -->
+            <g id="visual-2d-layers" opacity="0" style="transition: opacity 0.3s ease;">
+              <path d="M 330 115 L 480 115 M 330 130 L 480 130" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+              <rect x="330" y="134" width="150" height="22" fill="rgba(0,212,255,0.04)" stroke="rgba(0,212,255,0.2)" stroke-dasharray="4,2" stroke-width="1.2"/>
+              <path d="M 330 160 L 480 160 M 330 175 L 480 175" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+            </g>
+
+            <!-- Excitón confinado fuertemente -->
+            <g id="exciton-conf-group">
+              <line id="binding-conf" x1="385" y1="145" x2="425" y2="145" stroke="var(--green)" stroke-width="4.5" filter="url(#glow-green)" />
+              <line x1="385" y1="145" x2="425" y2="145" stroke="#ffffff" stroke-width="1.2" />
+              <circle id="electron-conf" cx="385" cy="145" r="10" fill="#ff7b6e" stroke="#ffffff" stroke-width="1.2" filter="url(#glow-red)"/>
+              <text x="385" y="148.5" fill="#ffffff" font-size="10" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">e⁻</text>
+              <circle id="hole-conf" cx="425" cy="145" r="10" fill="var(--cyan)" stroke="#ffffff" stroke-width="1.2" filter="url(#glow-cyan)"/>
+              <text x="425" y="148.5" fill="#07070f" font-size="10" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">h⁺</text>
+            </g>
+
+            <text id="binding-conf-label" x="405" y="122" fill="var(--green)" font-size="12" font-family="var(--font-m)" text-anchor="middle" font-weight="700">E_b &gg; k_BT</text>
+            <text id="stable-conf-label" x="405" y="165" fill="var(--dim)" font-size="10.5" font-family="var(--font-b)" text-anchor="middle">Excitón Estable a 300 K</text>
+
+            <!-- 3. CAPA INTERACTIVA: Mn Dopant Center & Energy Transfer -->
+            <g id="visual-mn-center" opacity="0" style="transition: opacity 0.3s ease;">
+              <circle cx="455" cy="145" r="9" fill="#F39C12" stroke="#ffffff" stroke-width="1.2" filter="url(#glow-amber)"/>
+              <text x="455" y="148" fill="#ffffff" font-size="7.5" font-family="var(--font-m)" font-weight="bold" text-anchor="middle">Mn</text>
+              <!-- Dashed energy transfer wave from exciton to Mn -->
+              <path id="energy-transfer-link" d="M 425 145 Q 440 132 446 142" fill="none" stroke="#F39C12" stroke-dasharray="2,2" stroke-width="1.5" />
+              <polygon points="443,139 448,143 447,137" fill="#F39C12"/>
+            </g>
+
+            <!-- Emisiones de fotones radiativos -->
+            <!-- Host green/cyan wave -->
+            <path id="radiative-photon-wave" class="perov-photon-wave" d="M 432 145 q 8 -15 16 -5 q 8 10 16 -15 q 8 -20 16 5 q 8 15 16 -10" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" filter="url(#glow-green)" opacity="0.8"/>
+            <text id="photon-label" x="508" y="138" fill="var(--green)" font-size="14" font-family="var(--font-m)" font-weight="bold" filter="url(#glow-green)" opacity="0.8">h&nu;</text>
+
+            <!-- Mn orange wave -->
+            <path id="mn-photon-wave" class="perov-photon-wave" d="M 465 145 q 6 -12 12 -4 q 6 8 12 -12 q 6 -16 12 4 q 6 12 12 -8" fill="none" stroke="#F39C12" stroke-width="2.2" stroke-linecap="round" filter="url(#glow-amber)" opacity="0"/>
+            <text id="mn-photon-label" x="515" y="138" fill="#F39C12" font-size="14" font-family="var(--font-m)" font-weight="bold" filter="url(#glow-amber)" opacity="0">h&nu;_Mn</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- HUD Log terminal display -->
+      <div class="perov-hud-log">
+        <span class="perov-log-prompt">&gt;</span>
+        <span id="perov-log-text">SYS.STATUS: NORMAL // PASA EL CURSOR SOBRE LA TABLA PARA INICIAR ANALISIS...</span>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Tabla HUD de Materiales y Detalles -->
+    <div class="perov-table-card">
+      <div class="corner-bracket cb-tl"></div>
+      <div class="corner-bracket cb-tr"></div>
+      <div class="corner-bracket cb-bl"></div>
+      <div class="corner-bracket cb-br"></div>
+      
+      <!-- Cruces de esquina (+) -->
+      <span class="hud-cross hc-tl">+</span>
+      <span class="hud-cross hc-tr">+</span>
+      <span class="hud-cross hc-bl">+</span>
+      <span class="hud-cross hc-br">+</span>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 6px;">
+        <div class="perov-visual-title">Parámetros de Familia Perovskitas</div>
+        <span style="font-family: var(--font-m); font-size: 0.6rem; color: var(--dim); letter-spacing: 0.08em;">DAT.MATRIX.05 // TEMP</span>
+      </div>
+
+      <table class="perov-table" id="perov-table-el">
+        <thead>
+          <tr>
+            <th>Material / Forma</th>
+            <th style="width: 110px; text-align: center;">LY (ph/MeV)</th>
+            <th style="width: 50px; text-align: center;">T</th>
+            <th style="width: 120px; text-align: center;">Estado (300K)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="row-perov-3d">
+            <td class="bold">CsPbBr₃ monocristal 3D</td>
+            <td class="td-num" style="color:var(--red); text-align: center;">50,000–109,000<br><span class="text-xs text-dim">(a 7 K)</span></td>
+            <td class="text-mono text-xs text-dim" style="text-align: center;">7 K</td>
+            <td style="text-align: center;">
+              <span class="hud-pill pill-r">
+                <span class="led"></span>APAGADO
+              </span>
+            </td>
+          </tr>
+          <tr id="row-perov-nc">
+            <td class="bold text-green">CsPbBr₃ nanocristal</td>
+            <td class="glow-cell" style="text-align: center;">24,000 &plusmn; 2,100</td>
+            <td class="text-mono text-xs" style="color:var(--green); text-align: center;">300 K</td>
+            <td style="text-align: center;">
+              <span class="hud-pill pill-g">
+                <span class="led"></span>Q-NEGATIVO
+              </span>
+            </td>
+          </tr>
+          <tr id="row-perov-2d-pea">
+            <td class="bold text-cyan">2D Li:(PEA)₂PbBr₄</td>
+            <td class="td-num" style="color:var(--cyan); text-align: center;">~11,000</td>
+            <td class="text-mono text-xs" style="color:var(--green); text-align: center;">300 K</td>
+            <td style="text-align: center;">
+              <span class="hud-pill pill-cyan">
+                <span class="led"></span>ESTABLE
+              </span>
+            </td>
+          </tr>
+          <tr id="row-perov-2d-mn">
+            <td class="bold text-green">2D A₂PbBr₄:Mn</td>
+            <td class="td-num text-green" style="text-align: center;">estable</td>
+            <td class="text-mono text-xs" style="color:var(--green); text-align: center;">300 K</td>
+            <td style="text-align: center;">
+              <span class="hud-pill pill-g">
+                <span class="led"></span>RAD-HARD
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- HUD LED Segmented Yield Meter for 300K Performance -->
+      <div style="margin-top: 14px; background: rgba(255,255,255,0.01); padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+        <div class="meter-stat-row" style="display:flex; justify-content:space-between; align-items:center; font-family:var(--font-m); font-size:0.68rem; color:var(--dim); margin-bottom:4px;">
+          <span>EFICIENCIA LUMINOSA RELATIVA A 300 K</span>
+          <span id="perov-meter-label" class="bold text-dim">---</span>
+        </div>
+        <div class="stability-meter-container" style="width: 100%; height: 8px; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 5px, transparent 5px, transparent 7px); border-radius: 1px; position: relative; overflow: hidden;">
+          <div id="perov-stability-meter" class="stability-meter" style="height: 100%; width: 0%; border-radius: 1px; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); background: repeating-linear-gradient(90deg, var(--dim) 0px, var(--dim) 5px, transparent 5px, transparent 7px);"></div>
+        </div>
+        <p class="text-xs text-dim" style="margin: 8px 0 0; line-height:1.45;">
+          * En LHP, la disociación térmica a T ambiente reduce el rendimiento en 1-2 órdenes de magnitud para Bulk 3D. El confinamiento (NC/2D) lo rescata.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner de advertencia inferior (Toxidad del Pb) -->
+  <div class="perov-warning-hud">
+    <span class="perov-warn-tag">⚠ SEGURIDAD</span>
+    <span class="perov-warn-text">TOXICIDAD CRÍTICA DEL PLOMO (Pb) — Limitante principal para el desarrollo de un detector portátil de uso personal en campo.</span>
+  </div>
+</div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<!-- Reveal.js -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// HERO CANVAS — scintillation particles
+// ═══════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  function Particle() {
+    this.reset();
+  }
+  Particle.prototype.reset = function() {
+    this.x    = Math.random() * canvas.width;
+    this.y    = Math.random() * canvas.height;
+    this.vx   = (Math.random() - 0.5) * 0.4;
+    this.vy   = (Math.random() - 0.5) * 0.4;
+    this.life = Math.random();
+    this.maxLife = 0.6 + Math.random() * 0.4;
+    this.r    = 0.6 + Math.random() * 1.4;
+    this.type = Math.random() < 0.15 ? 'trail' : 'dot';
+    this.hist = [];
+  };
+  Particle.prototype.update = function() {
+    this.hist.push({x:this.x, y:this.y});
+    if (this.hist.length > 6) this.hist.shift();
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life += 0.003;
+    if (this.life > this.maxLife ||
+        this.x < -10 || this.x > canvas.width + 10 ||
+        this.y < -10 || this.y > canvas.height + 10) {
+      this.reset();
+    }
+  };
+  Particle.prototype.draw = function() {
+    const alpha = Math.sin(this.life / this.maxLife * Math.PI) * 0.55;
+    if (this.type === 'trail' && this.hist.length > 2) {
+      ctx.beginPath();
+      ctx.moveTo(this.hist[0].x, this.hist[0].y);
+      for (let i=1; i<this.hist.length; i++) {
+        ctx.lineTo(this.hist[i].x, this.hist[i].y);
+      }
+      ctx.strokeStyle = `rgba(0,212,255,${alpha * 0.5})`;
+      ctx.lineWidth = this.r * 0.6;
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  };
+
+  function init() {
+    resize();
+    particles = Array.from({length: 90}, () => {
+      const p = new Particle();
+      p.life = Math.random() * p.maxLife;
+      return p;
+    });
+  }
+
+  let rafId = null;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    if (!prefersReduced.matches) rafId = requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  prefersReduced.addEventListener('change', () => {
+    if (!prefersReduced.matches) { loop(); } else if (rafId) { cancelAnimationFrame(rafId); }
+  });
+  init();
+  if (!prefersReduced.matches) loop();
+})();
+
+// ═══════════════════════════════════════════════
+// MOTT-SEITZ SVG ANIMATION
+// ═══════════════════════════════════════════════
+function animateMottSeitz() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    ['ms-curve-cef3','ms-curve-sr','ms-curve-perov'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.strokeDashoffset = '0';
+    });
+    ['ms-dot-cef3','ms-dot-sr','ms-dot-perov','ms-300k','ms-300k-lbl'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.opacity = '1';
+    });
+    return;
+  }
+  const curves = [
+    {id:'ms-curve-cef3',  dash:400,  delay:0},
+    {id:'ms-curve-sr',    dash:600,  delay:400},
+    {id:'ms-curve-perov', dash:600,  delay:800},
+  ];
+  const dots    = ['ms-dot-cef3','ms-dot-sr','ms-dot-perov'];
+  const line300 = document.getElementById('ms-300k');
+  const lbl300  = document.getElementById('ms-300k-lbl');
+
+  curves.forEach(({id, dash, delay}) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    setTimeout(() => {
+      el.style.transition = `stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)`;
+      el.style.strokeDashoffset = '0';
+    }, delay);
+  });
+
+  setTimeout(() => {
+    if (line300) { line300.style.transition = 'opacity 0.5s'; line300.style.opacity = '1'; }
+    if (lbl300)  { lbl300.style.transition  = 'opacity 0.5s'; lbl300.style.opacity  = '1'; }
+    dots.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.4s';
+        el.style.opacity = '1';
+      }, i * 150);
+    });
+  }, 1600);
+}
+
+// ═══════════════════════════════════════════════
+// DECISION MATRIX SCANNER
+// ═══════════════════════════════════════════════
+function scanMatrix() {
+  const table = document.getElementById('matrix-table');
+  if (!table) return;
+  const cells = table.querySelectorAll('td.cell-g, td.cell-a, td.cell-r');
+  const cols = 7;
+  let col = 0;
+  const interval = setInterval(() => {
+    cells.forEach(cell => {
+      const cellCol = cell.cellIndex;
+      if (cellCol === col + 1) {
+        cell.classList.add('lit');
+        setTimeout(() => cell.classList.remove('lit'), 900);
+      }
+    });
+    col++;
+    if (col >= cols) clearInterval(interval);
+  }, 160);
+}
+
+// ═══════════════════════════════════════════════
+// REVEAL.JS INIT
+// ═══════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════
+// SLIDE 5 — PEROVSKITAS INTERACTIVE LOGIC
+// ═══════════════════════════════════════════════
+function initPerovInteractions() {
+  const table = document.getElementById('perov-table-el');
+  if (!table) return;
+
+  const rows = [
+    { id: 'row-perov-3d', mat: 'perov-3d' },
+    { id: 'row-perov-nc', mat: 'perov-nc' },
+    { id: 'row-perov-2d-pea', mat: 'perov-2d-pea' },
+    { id: 'row-perov-2d-mn', mat: 'perov-2d-mn' }
+  ];
+
+  rows.forEach(r => {
+    const el = document.getElementById(r.id);
+    if (el) {
+      el.addEventListener('mouseenter', () => highlightPerov(r.mat));
+      el.addEventListener('mouseleave', () => clearPerovHighlight());
+    }
+  });
+}
+
+function highlightPerov(mat) {
+  const svg = document.getElementById('perov-svg');
+  const logText = document.getElementById('perov-log-text');
+  const meter = document.getElementById('perov-stability-meter');
+  const meterLbl = document.getElementById('perov-meter-label');
+  
+  const electron3d = document.getElementById('electron-3d');
+  const hole3d = document.getElementById('hole-3d');
+  const binding3d = document.getElementById('binding-3d');
+  
+  const ncDot = document.getElementById('visual-nc-dot');
+  const layers2d = document.getElementById('visual-2d-layers');
+  const mnCenter = document.getElementById('visual-mn-center');
+  const pozoText = document.getElementById('pozo-subtext');
+  
+  const hostWave = document.getElementById('radiative-photon-wave');
+  const hostLbl = document.getElementById('photon-label');
+  const mnWave = document.getElementById('mn-photon-wave');
+  const mnLbl = document.getElementById('mn-photon-label');
+  
+  const bindingConf = document.getElementById('binding-conf');
+  const bindingConfLbl = document.getElementById('binding-conf-label');
+  const stableConfLbl = document.getElementById('stable-conf-label');
+
+  const rows = ['perov-3d', 'perov-nc', 'perov-2d-pea', 'perov-2d-mn'];
+  
+  rows.forEach(r => {
+    const el = document.getElementById(`row-${r}`);
+    if (el) {
+      if (r === mat) {
+        el.classList.add('row-focused');
+        el.classList.remove('dimmed');
+      } else {
+        el.classList.add('dimmed');
+        el.classList.remove('row-focused');
+      }
+    }
+  });
+
+  if (!svg) return;
+
+  // Clear previous state classes on SVG
+  svg.classList.remove('perov-focus-3d', 'perov-focus-confined');
+
+  // Reset animations
+  if (electron3d) electron3d.className.baseVal = '';
+  if (hole3d) hole3d.className.baseVal = '';
+  if (binding3d) binding3d.style.opacity = '';
+
+  if (mat === 'perov-3d') {
+    svg.classList.add('perov-focus-3d');
+    if (logText) logText.textContent = 'SYS.STATUS: CRITICAL // MONOCRISTAL 3D: DISOCIACION ACELERADA A 300K (Eb ~ 26 meV)';
+    if (meter) {
+      meter.style.width = '2%';
+      meter.style.background = 'repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 5px, transparent 5px, transparent 7px)';
+      meter.style.filter = 'drop-shadow(0 0 3px rgba(231,76,60,0.8))';
+    }
+    if (meterLbl) {
+      meterLbl.textContent = 'CATASTRÓFICO (< 1% LY)';
+      meterLbl.className = 'bold text-red';
+    }
+    
+    // Animate 3D exciton dissociation
+    if (electron3d) electron3d.className.baseVal = 'perov-dissoc-e-anim';
+    if (hole3d) hole3d.className.baseVal = 'perov-dissoc-h-anim';
+    if (binding3d) binding3d.style.opacity = '0.15';
+
+    // Hide confinement elements
+    if (ncDot) ncDot.style.opacity = '0';
+    if (layers2d) layers2d.style.opacity = '0';
+    if (mnCenter) mnCenter.style.opacity = '0';
+    if (pozoText) pozoText.textContent = 'POZO CUÁNTICO / NANOCRISTAL';
+    if (hostWave) hostWave.style.opacity = '0';
+    if (hostLbl) hostLbl.style.opacity = '0';
+    if (mnWave) mnWave.style.opacity = '0';
+    if (mnLbl) mnLbl.style.opacity = '0';
+    
+  } else {
+    svg.classList.add('perov-focus-confined');
+    
+    // Normal vibrating excited states inside confinement
+    if (electron3d) electron3d.className.baseVal = 'perov-vibrate-e-anim';
+    if (hole3d) hole3d.className.baseVal = 'perov-vibrate-h-anim';
+
+    if (mat === 'perov-nc') {
+      if (logText) logText.textContent = 'SYS.STATUS: ACTIVE // CsPbBr3 NC: CONFINAMIENTO 3D (0D DOT) // EMISION EXCITONICA VERDE (~520 nm)';
+      if (meter) {
+        meter.style.width = '60%';
+        meter.style.background = 'repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 5px, transparent 5px, transparent 7px)';
+        meter.style.filter = 'drop-shadow(0 0 3px rgba(46,204,113,0.8))';
+      }
+      if (meterLbl) {
+        meterLbl.textContent = '24,000 ph/MeV (60%)';
+        meterLbl.className = 'bold text-green';
+      }
+
+      // Confinement physics styles
+      if (ncDot) ncDot.style.opacity = '1';
+      if (layers2d) layers2d.style.opacity = '0';
+      if (mnCenter) mnCenter.style.opacity = '0';
+      if (pozoText) pozoText.textContent = 'CONFINAMIENTO 3D (0D DOT)';
+      
+      if (hostWave) {
+        hostWave.style.opacity = '0.95';
+        hostWave.setAttribute('stroke', 'var(--green)');
+        hostWave.setAttribute('filter', 'url(#glow-green)');
+      }
+      if (hostLbl) {
+        hostLbl.style.opacity = '0.95';
+        hostLbl.setAttribute('fill', 'var(--green)');
+        hostLbl.setAttribute('filter', 'url(#glow-green)');
+        hostLbl.textContent = 'hν';
+      }
+      if (mnWave) mnWave.style.opacity = '0';
+      if (mnLbl) mnLbl.style.opacity = '0';
+
+      if (bindingConf) { bindingConf.setAttribute('stroke', 'var(--green)'); bindingConf.setAttribute('filter', 'url(#glow-green)'); }
+      if (bindingConfLbl) { bindingConfLbl.setAttribute('fill', 'var(--green)'); bindingConfLbl.textContent = 'E_b >> k_BT'; }
+      
+    } else if (mat === 'perov-2d-pea') {
+      if (logText) logText.textContent = 'SYS.STATUS: ACTIVE // 2D PEA: CONFINAMIENTO 1D (POZO 2D) // EMISION AZUL-VERDE AJUSTABLE (~490 nm)';
+      if (meter) {
+        meter.style.width = '30%';
+        meter.style.background = 'repeating-linear-gradient(90deg, var(--cyan) 0px, var(--cyan) 5px, transparent 5px, transparent 7px)';
+        meter.style.filter = 'drop-shadow(0 0 3px rgba(0,212,255,0.8))';
+      }
+      if (meterLbl) {
+        meterLbl.textContent = '11,000 ph/MeV (30%)';
+        meterLbl.className = 'bold text-cyan';
+      }
+
+      // Confinement physics styles
+      if (ncDot) ncDot.style.opacity = '0';
+      if (layers2d) layers2d.style.opacity = '1';
+      if (mnCenter) mnCenter.style.opacity = '0';
+      if (pozoText) pozoText.textContent = 'CONFINAMIENTO 1D (POZO 2D)';
+      
+      if (hostWave) {
+        hostWave.style.opacity = '0.95';
+        hostWave.setAttribute('stroke', 'var(--cyan)');
+        hostWave.setAttribute('filter', 'url(#glow-cyan)');
+      }
+      if (hostLbl) {
+        hostLbl.style.opacity = '0.95';
+        hostLbl.setAttribute('fill', 'var(--cyan)');
+        hostLbl.setAttribute('filter', 'url(#glow-cyan)');
+        hostLbl.textContent = 'hν';
+      }
+      if (mnWave) mnWave.style.opacity = '0';
+      if (mnLbl) mnLbl.style.opacity = '0';
+
+      if (bindingConf) { bindingConf.setAttribute('stroke', 'var(--cyan)'); bindingConf.setAttribute('filter', 'url(#glow-cyan)'); }
+      if (bindingConfLbl) { bindingConfLbl.setAttribute('fill', 'var(--cyan)'); bindingConfLbl.textContent = 'E_b >> k_BT'; }
+      
+    } else if (mat === 'perov-2d-mn') {
+      if (logText) logText.textContent = 'SYS.STATUS: ACTIVE // 2D Mn: TRANSF. DE ENERGIA EXCITON -> Mn2+ // EMISION NARANJA RAD-HARD (~600 nm)';
+      if (meter) {
+        meter.style.width = '80%';
+        meter.style.background = 'repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 5px, transparent 5px, transparent 7px)';
+        meter.style.filter = 'drop-shadow(0 0 3px rgba(46,204,113,0.8))';
+      }
+      if (meterLbl) {
+        meterLbl.textContent = 'ESTABLE - ALTO LY (80%)';
+        meterLbl.className = 'bold text-green';
+      }
+
+      // Confinement physics styles
+      if (ncDot) ncDot.style.opacity = '0';
+      if (layers2d) layers2d.style.opacity = '1';
+      if (mnCenter) mnCenter.style.opacity = '1';
+      if (pozoText) pozoText.textContent = 'CONFINAMIENTO 1D + DOPAJE Mn²⁺';
+      
+      // Host excitonic emission is partially quenched by energy transfer
+      if (hostWave) {
+        hostWave.style.opacity = '0.15';
+        hostWave.setAttribute('stroke', 'var(--cyan)');
+        hostWave.setAttribute('filter', 'url(#glow-cyan)');
+      }
+      if (hostLbl) {
+        hostLbl.style.opacity = '0.15';
+        hostLbl.setAttribute('fill', 'var(--cyan)');
+        hostLbl.setAttribute('filter', 'url(#glow-cyan)');
+        hostLbl.textContent = 'hν';
+      }
+      // Mn orange emission is highly active
+      if (mnWave) mnWave.style.opacity = '0.95';
+      if (mnLbl) mnLbl.style.opacity = '0.95';
+
+      if (bindingConf) { bindingConf.setAttribute('stroke', 'var(--cyan)'); bindingConf.setAttribute('filter', 'url(#glow-cyan)'); }
+      if (bindingConfLbl) { bindingConfLbl.setAttribute('fill', 'var(--cyan)'); bindingConfLbl.textContent = 'E_b >> k_BT'; }
+    }
+  }
+}
+
+function clearPerovHighlight() {
+  const svg = document.getElementById('perov-svg');
+  const logText = document.getElementById('perov-log-text');
+  const meter = document.getElementById('perov-stability-meter');
+  const meterLbl = document.getElementById('perov-meter-label');
+  
+  const electron3d = document.getElementById('electron-3d');
+  const hole3d = document.getElementById('hole-3d');
+  const binding3d = document.getElementById('binding-3d');
+  
+  const ncDot = document.getElementById('visual-nc-dot');
+  const layers2d = document.getElementById('visual-2d-layers');
+  const mnCenter = document.getElementById('visual-mn-center');
+  const pozoText = document.getElementById('pozo-subtext');
+  
+  const hostWave = document.getElementById('radiative-photon-wave');
+  const hostLbl = document.getElementById('photon-label');
+  const mnWave = document.getElementById('mn-photon-wave');
+  const mnLbl = document.getElementById('mn-photon-label');
+  
+  const bindingConf = document.getElementById('binding-conf');
+  const bindingConfLbl = document.getElementById('binding-conf-label');
+
+  const rows = ['perov-3d', 'perov-nc', 'perov-2d-pea', 'perov-2d-mn'];
+  
+  rows.forEach(r => {
+    const el = document.getElementById(`row-${r}`);
+    if (el) {
+      el.classList.remove('row-focused', 'dimmed');
+    }
+  });
+
+  if (svg) svg.classList.remove('perov-focus-3d', 'perov-focus-confined');
+  
+  if (electron3d) electron3d.className.baseVal = '';
+  if (hole3d) hole3d.className.baseVal = '';
+  if (binding3d) binding3d.style.opacity = '';
+
+  if (logText) logText.textContent = 'SYS.STATUS: NORMAL // PASA EL CURSOR SOBRE LA TABLA PARA INICIAR ANALISIS...';
+  
+  if (meter) {
+    meter.style.width = '0%';
+    meter.style.background = '';
+    meter.style.filter = '';
+  }
+  if (meterLbl) {
+    meterLbl.textContent = '---';
+    meterLbl.className = 'bold text-dim';
+  }
+
+  // Restore default confinement view
+  if (ncDot) ncDot.style.opacity = '0';
+  if (layers2d) layers2d.style.opacity = '0';
+  if (mnCenter) mnCenter.style.opacity = '0';
+  if (pozoText) pozoText.textContent = 'POZO CUÁNTICO / NANOCRISTAL';
+  
+  if (hostWave) {
+    hostWave.style.opacity = '0.8';
+    hostWave.setAttribute('stroke', 'var(--green)');
+    hostWave.setAttribute('filter', 'url(#glow-green)');
+  }
+  if (hostLbl) {
+    hostLbl.style.opacity = '0.8';
+    hostLbl.setAttribute('fill', 'var(--green)');
+    hostLbl.setAttribute('filter', 'url(#glow-green)');
+    hostLbl.textContent = 'hν';
+  }
+  if (mnWave) mnWave.style.opacity = '0';
+  if (mnLbl) mnLbl.style.opacity = '0';
+  
+  if (bindingConf) { bindingConf.setAttribute('stroke', 'var(--green)'); bindingConf.setAttribute('filter', 'url(#glow-green)'); }
+  if (bindingConfLbl) { bindingConfLbl.setAttribute('fill', 'var(--green)'); bindingConfLbl.textContent = 'E_b >> k_BT'; }
+}
+Reveal.initialize({
+  hash: true,
+  slideNumber: () => [5, '/', 10],
+  transition: 'slide',
+  transitionSpeed: 'default',
+  backgroundTransition: 'fade',
+  controls: true,
+  progress: true,
+  center: false,
+  width: 1280,
+  height: 720,
+  margin: 0,
+  plugins: [],
+  keyboard: true,
+});
+
+Reveal.on('slidechanged', event => {
+  const idx = event.indexh;
+  // Slide 4 (0-indexed = 3) → Mott-Seitz
+  if (idx === 3) {
+    setTimeout(animateMottSeitz, 400);
+  }
+  // Slide 10 (0-indexed = 9) → matrix scanner
+  if (idx === 9) {
+    setTimeout(scanMatrix, 600);
+  }
+});
+
+// Re-run on fragment shown for MathJax
+Reveal.on('fragmentshown', () => {
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+});
+
+// Run MathJax after reveal is ready
+Reveal.on('ready', () => {
+  if (document.getElementById('ms-svg')) {
+    setTimeout(animateMottSeitz, 400);
+  }
+  if (document.getElementById('matrix-table')) {
+    setTimeout(scanMatrix, 600);
+  }
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+  initPerovInteractions();
+});
+</script>
+
+<script>
+(function() {
+  const prevSlideUrl = 'presentacion_slide_4.html';
+  const nextSlideUrl = 'presentacion_slide_6.html';
+
+  function navigateTo(url) {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (event) => {
+    // Ignore if modifier keys are pressed or user is typing in a input (none here but safe practice)
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+
+    const key = event.key;
+    if (['ArrowRight', 'Space', 'PageDown', 'n', 'l'].includes(key)) {
+      event.preventDefault();
+      navigateTo(nextSlideUrl);
+    } else if (['ArrowLeft', 'PageUp', 'p', 'h'].includes(key)) {
+      event.preventDefault();
+      navigateTo(prevSlideUrl);
+    }
+  });
+
+  // Touch swipe navigation
+  let touchstartX = 0;
+  let touchendX = 0;
+  
+  window.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  window.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleGesture();
+  }, { passive: true });
+
+  function handleGesture() {
+    const threshold = 50; // pixels
+    if (touchendX < touchstartX - threshold) {
+      navigateTo(nextSlideUrl);
+    }
+    if (touchendX > touchstartX + threshold) {
+      navigateTo(prevSlideUrl);
+    }
+  }
+
+  // Click handler for Reveal.js controls
+  Reveal.on('ready', () => {
+    // We target the HTML buttons that Reveal.js displays
+    const leftControl = document.querySelector('.navigate-left');
+    const rightControl = document.querySelector('.navigate-right');
+
+    if (leftControl && prevSlideUrl) {
+      leftControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(prevSlideUrl);
+      }, true);
+    }
+    if (rightControl && nextSlideUrl) {
+      rightControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(nextSlideUrl);
+      }, true);
+    }
+  });
+})();
+</script>
+</body>
+</html>

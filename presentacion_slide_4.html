@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quenching en Materiales Luminiscentes Inorgánicos</title>
+
+<!-- Reveal.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    packages: {'[+]': ['boldsymbol']}
+  },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════ */
+:root {
+  --bg:       #07070f;
+  --bg2:      #0d0d1a;
+  --bg3:      #111125;
+  --cyan:     #00d4ff;
+  --cyan-dim: #0096b8;
+  --white:    #e8eaf0;
+  --dim:      #8892a4;
+  --green:    #2ECC71;
+  --amber:    #F39C12;
+  --red:      #E74C3C;
+  --purple:   #a78bfa;
+  --font-h:   'Syne', sans-serif;
+  --font-b:   'DM Sans', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+}
+
+/* ═══════════════════════════════════════════════
+   REVEAL OVERRIDES
+   ═══════════════════════════════════════════════ */
+.reveal-viewport { background: var(--bg); }
+.reveal { font-family: var(--font-b); color: var(--white); font-size: 18px; }
+.reveal .slides { text-align: left; }
+.reveal .slides section { padding: 0; height: 100%; box-sizing: border-box; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--font-h);
+  text-transform: none;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+.reveal .progress { height: 3px; color: var(--cyan); }
+.reveal .controls { color: var(--cyan-dim); }
+.reveal .slide-number { color: var(--dim); font-family: var(--font-m); font-size: 12px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; }
+.reveal .slide-number-a { color: var(--white); }
+.reveal .slide-number-delimiter { color: var(--dim); margin: 0 2px; }
+.reveal .slide-number-b { color: var(--dim); }
+
+
+/* fragment defaults */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .fragment {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+    transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1),
+                transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                filter 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal .fragment.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal .fragment { opacity: 0; transition: opacity 0.01ms; }
+  .reveal .fragment.visible { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED LAYOUT HELPERS
+   ═══════════════════════════════════════════════ */
+.slide-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  padding: 36px 48px 24px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+.slide-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  color: var(--white);
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+.slide-subtitle {
+  font-size: 0.88rem;
+  color: var(--cyan);
+  font-family: var(--font-m);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; flex: 1; }
+
+/* ═══════════════════════════════════════════════
+   CARDS / CALLOUTS
+   ═══════════════════════════════════════════════ */
+.card {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.card-cyan { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.04); }
+.card-green { border-color: rgba(46,204,113,0.3); background: rgba(46,204,113,0.04); }
+.card-amber { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.05); }
+.card-red   { border-color: rgba(231,76,60,0.3);  background: rgba(231,76,60,0.05); }
+
+.card-label {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+.card-title {
+  font-family: var(--font-h);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.callout {
+  background: rgba(0,212,255,0.08);
+  border-left: 3px solid var(--cyan);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+.callout-amber { border-color: var(--amber); background: rgba(243,156,18,0.06); }
+.callout-red   { border-color: var(--red);   background: rgba(231,76,60,0.06); }
+.callout-green { border-color: var(--green); background: rgba(46,204,113,0.06); }
+
+.alert-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(231,76,60,0.12);
+  border: 1px solid rgba(231,76,60,0.4);
+  color: #ff7b6e;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-family: var(--font-m);
+}
+
+/* ═══════════════════════════════════════════════
+   TABLES
+   ═══════════════════════════════════════════════ */
+.sci-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.sci-table th {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,212,255,0.25);
+  white-space: nowrap;
+}
+.sci-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: top;
+  line-height: 1.4;
+}
+.sci-table tr:last-child td { border-bottom: none; }
+.sci-table tr:hover td { background: rgba(255,255,255,0.02); }
+.td-num { font-family: var(--font-m); color: var(--cyan); font-size: 0.82rem; }
+.td-note { color: var(--dim); font-size: 0.75rem; }
+.glow-cell { color: var(--cyan) !important; text-shadow: 0 0 12px rgba(0,212,255,0.6); font-family: var(--font-m); }
+
+/* semaphore cells */
+.cell-g { background: rgba(46,204,113,0.18);  color: #5eda94; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-a { background: rgba(243,156,18,0.18);  color: #f5b942; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-r { background: rgba(231,76,60,0.18);   color: #f07068; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-g.lit { background: rgba(46,204,113,0.42);  box-shadow: 0 0 10px rgba(46,204,113,0.4); }
+.cell-a.lit { background: rgba(243,156,18,0.42);  box-shadow: 0 0 10px rgba(243,156,18,0.4); }
+.cell-r.lit { background: rgba(231,76,60,0.42);   box-shadow: 0 0 10px rgba(231,76,60,0.4); }
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY UTILS
+   ═══════════════════════════════════════════════ */
+.text-cyan   { color: var(--cyan); }
+.text-green  { color: var(--green); }
+.text-amber  { color: var(--amber); }
+.text-red    { color: var(--red); }
+.text-dim    { color: var(--dim); }
+.text-mono   { font-family: var(--font-m); }
+.text-sm     { font-size: 0.8rem; }
+.text-xs     { font-size: 0.7rem; }
+.text-lg     { font-size: 1.05rem; }
+.bold        { font-weight: 700; }
+.mb4  { margin-bottom: 4px; }
+.mb8  { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.mb16 { margin-bottom: 16px; }
+.mb24 { margin-bottom: 24px; }
+.mt8  { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+
+/* prefers-reduced-motion global */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* accent rule */
+.rule-cyan { height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); margin-bottom: 12px; border: none; }
+
+/* decorative corner line */
+.slide-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 60px;
+  background: linear-gradient(180deg, var(--cyan), transparent);
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 4 — MOTT-SEITZ (HUD DASHBOARD VERSION)
+   ═══════════════════════════════════════════════ */
+.ms-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  width: 100%;
+}
+.ms-top-row {
+  display: grid;
+  grid-template-columns: 1.22fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.ms-bottom-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Visual Panel Card with HUD style corner brackets and dot-grid */
+.ms-visual-card {
+  background: radial-gradient(circle at 50% 0%, rgba(13, 13, 26, 0.6) 0%, rgba(7, 7, 15, 0.95) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(13, 13, 26, 0.6) 0%, rgba(7, 7, 15, 0.95) 100%),
+    radial-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 0);
+  background-size: 100% 100%, 14px 14px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 14px 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.ms-visual-card:hover {
+  border-color: rgba(0, 212, 255, 0.18);
+  box-shadow: 0 12px 45px 0 rgba(0, 212, 255, 0.05);
+}
+
+/* Card inner split layout (SVG left, Info right) */
+.ms-card-inner-split {
+  display: grid;
+  grid-template-columns: 1.28fr 1fr;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+  flex: 1;
+}
+.ms-card-inner-split.ms-left-split {
+  grid-template-columns: 2.8fr 1fr;
+}
+.ms-card-inner-split.ms-right-split {
+  grid-template-columns: 2.5fr 1fr;
+}
+
+/* Corner brackets HUD style */
+.corner-bracket {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  pointer-events: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.ms-visual-card:hover .corner-bracket {
+  border-color: rgba(0, 212, 255, 0.8);
+  box-shadow: 0 0 5px rgba(0, 212, 255, 0.4);
+}
+.cb-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.cb-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.cb-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.cb-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+/* HUD cross decorations */
+.hud-cross {
+  position: absolute;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: rgba(0, 212, 255, 0.25);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+.ms-visual-card:hover .hud-cross {
+  color: rgba(0, 212, 255, 0.65);
+}
+.hc-tl { top: 12px; left: 12px; }
+.hc-tr { top: 12px; right: 12px; }
+.hc-bl { bottom: 12px; left: 12px; }
+.hc-br { bottom: 12px; right: 12px; }
+
+.ms-visual-title {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 0;
+  border-left: 2px solid var(--cyan);
+  padding-left: 8px;
+}
+
+/* Widescreen-friendly HTML Formula Badge */
+.ms-eq-glass-inline {
+  background: rgba(7, 7, 15, 0.85);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 6px;
+  padding: 3px 8px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0, 212, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.ms-eq-badge-lbl {
+  font-family: var(--font-m);
+  font-size: 0.52rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.formula-html {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-b);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.formula-html .greek {
+  font-family: var(--font-b);
+  font-style: italic;
+  font-weight: 700;
+  margin-right: 2px;
+}
+.formula-html .var {
+  font-style: italic;
+}
+.formula-html .fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  font-size: 0.7rem;
+}
+.formula-html .num {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0 2px;
+  width: 100%;
+  text-align: center;
+  line-height: 1.0;
+}
+.formula-html .den {
+  padding: 1px 2px 0;
+  text-align: center;
+  line-height: 1.0;
+}
+
+/* Info Panel Styling (Column 2) */
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  border-left: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-left: 14px;
+  box-sizing: border-box;
+  opacity: 0;
+  filter: blur(2px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.info-title {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.7rem;
+  color: var(--white);
+}
+.info-table th {
+  font-family: var(--font-m);
+  font-size: 0.58rem;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  padding: 4px;
+  text-align: left;
+}
+.info-table td {
+  padding: 5px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.info-table tr:last-child td {
+  border-bottom: none;
+}
+.info-note {
+  font-size: 0.65rem;
+  color: var(--dim);
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 2px solid var(--cyan-dim);
+}
+
+/* Vibrational Level styling inside CC Diagram SVG */
+.v-level {
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 0.8px;
+  stroke-dasharray: 1, 2;
+  opacity: 0;
+  transition: opacity 0.8s ease, stroke 0.3s ease, stroke-width 0.3s ease;
+}
+.v-level.highlighted {
+  stroke: #ffffff !important;
+  stroke-width: 1.2px !important;
+  opacity: 0.8 !important;
+}
+
+/* HUD State Pills in Table */
+.hud-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: var(--font-m);
+  font-size: 0.5rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+}
+.pill-g { color: #5eda94; background: rgba(46, 204, 113, 0.1); }
+.pill-r { color: #f07068; background: rgba(231, 76, 60, 0.1); }
+.pill-a { color: #f5b942; background: rgba(243, 156, 18, 0.1); }
+.hud-pill .led {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  display: inline-block;
+}
+
+/* Terminal logs view */
+.terminal-log {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-m);
+  flex: 1;
+}
+.log-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.log-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 212, 255, 0.22);
+}
+.log-tag {
+  font-weight: 700;
+  color: var(--cyan);
+  flex-shrink: 0;
+  background: rgba(0, 212, 255, 0.08);
+  padding: 1px 4px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  font-size: 0.55rem;
+}
+.log-tag.tag-red {
+  color: #f07068;
+  background: rgba(231, 76, 60, 0.08);
+  border-color: rgba(231, 76, 60, 0.15);
+}
+.log-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.log-title {
+  font-weight: 700;
+  color: var(--white);
+  font-size: 0.7rem;
+}
+.log-desc {
+  color: var(--dim);
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+.log-status {
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  flex-shrink: 0;
+}
+.stat-ok { color: #5eda94; background: rgba(46, 204, 113, 0.08); }
+.stat-warn { color: #f07068; background: rgba(231, 76, 60, 0.08); }
+
+/* Material Cards */
+.material-card {
+  background: radial-gradient(circle at 50% 0%, rgba(17, 17, 37, 0.45) 0%, rgba(13, 13, 26, 0.7) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(17, 17, 37, 0.45) 0%, rgba(13, 13, 26, 0.7) 100%),
+    radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 0);
+  background-size: 100% 100%, 12px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 148px;
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+.material-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.card-cef3 { border-color: rgba(46, 204, 113, 0.12); }
+.card-cef3:hover { border-color: rgba(46, 204, 113, 0.35); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.08); }
+.card-sr { border-color: rgba(231, 76, 60, 0.12); }
+.card-sr:hover { border-color: rgba(231, 76, 60, 0.35); box-shadow: 0 6px 20px rgba(231, 76, 60, 0.08); }
+.card-perov { border-color: rgba(243, 156, 18, 0.12); }
+.card-perov:hover { border-color: rgba(243, 156, 18, 0.35); box-shadow: 0 6px 20px rgba(243, 156, 18, 0.08); }
+.card-req { background: rgba(0, 212, 255, 0.02); border-color: rgba(0, 212, 255, 0.2); }
+.card-req:hover { border-color: rgba(0, 212, 255, 0.5); box-shadow: 0 6px 25px rgba(0, 212, 255, 0.12); }
+
+.card-badge {
+  font-family: var(--font-m);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  width: fit-content;
+  margin-bottom: 6px;
+}
+.badge-green { background: rgba(46, 204, 113, 0.12); color: #5eda94; border: 1px solid rgba(46, 204, 113, 0.25); }
+.badge-red { background: rgba(231, 76, 60, 0.12); color: #f07068; border: 1px solid rgba(231, 76, 60, 0.25); }
+.badge-amber { background: rgba(243, 156, 18, 0.12); color: #f5b942; border: 1px solid rgba(243, 156, 18, 0.25); }
+.badge-cyan { background: rgba(0, 212, 255, 0.12); color: var(--cyan); border: 1px solid rgba(0, 212, 255, 0.25); }
+
+.card-m-title {
+  font-family: var(--font-h);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--white);
+}
+.card-m-desc {
+  font-size: 0.72rem;
+  color: var(--dim);
+  line-height: 1.35;
+}
+.card-m-desc strong { color: var(--white); }
+
+.card-icon {
+  width: 14px;
+  height: 14px;
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+/* Metadata fields in Cards */
+.card-metadata {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-m);
+  font-size: 0.58rem;
+  color: var(--dim);
+  margin-bottom: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+.card-metadata span {
+  display: flex;
+  align-items: center;
+}
+
+.meter-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-m);
+  font-size: 0.58rem;
+  color: var(--dim);
+  margin-top: auto;
+  margin-bottom: 4px;
+}
+.meter-stat-row span {
+  font-weight: 500;
+}
+
+/* LED Segmented stability meters styling */
+.stability-meter-container {
+  width: 100%;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 5px, transparent 5px, transparent 7px);
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+.stability-meter {
+  height: 100%;
+  width: 0%;
+  border-radius: 1px;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.meter-green {
+  background: repeating-linear-gradient(90deg, var(--green) 0px, var(--green) 5px, transparent 5px, transparent 7px);
+  filter: drop-shadow(0 0 3px rgba(46, 204, 113, 0.8));
+}
+.meter-red {
+  background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 5px, transparent 5px, transparent 7px);
+  filter: drop-shadow(0 0 3px rgba(231, 76, 60, 0.8));
+}
+.meter-amber {
+  background: repeating-linear-gradient(90deg, var(--amber) 0px, var(--amber) 5px, transparent 5px, transparent 7px);
+  filter: drop-shadow(0 0 3px rgba(243, 156, 18, 0.8));
+}
+.meter-cyan {
+  background: repeating-linear-gradient(90deg, var(--cyan) 0px, var(--cyan) 5px, transparent 5px, transparent 7px);
+  filter: drop-shadow(0 0 3px rgba(0, 212, 255, 0.8));
+}
+
+/* Fragment overrides for cards to support custom stagger */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .ms-bottom-row .material-card {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1),
+                transform 0.5s cubic-bezier(0.22,1,0.36,1),
+                filter 0.5s cubic-bezier(0.22,1,0.36,1);
+    transition-delay: calc(var(--delay) * 120ms);
+  }
+  .reveal .ms-bottom-row.visible .material-card {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   CROSS-HIGHLIGHT INTERACTIVE CLASSES
+   ═══════════════════════════════════════════════ */
+.ms-curve-path {
+  transition: stroke-width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+.ms-curve-path.dimmed {
+  opacity: 0.12 !important;
+  filter: none !important;
+}
+.ms-curve-path.highlight-green {
+  stroke-width: 3.5px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 6px var(--green)) !important;
+}
+.ms-curve-path.highlight-red {
+  stroke-width: 3.5px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 6px var(--red)) !important;
+}
+.ms-curve-path.highlight-amber {
+  stroke-width: 3.5px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 6px var(--amber)) !important;
+}
+
+.ms-dot-circle {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              opacity 0.3s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.ms-dot-circle.highlighted {
+  transform: scale(1.6);
+  stroke: #ffffff !important;
+  stroke-width: 1.5px !important;
+  opacity: 1 !important;
+}
+
+.info-table tbody tr {
+  transition: background-color 0.3s ease, opacity 0.3s ease, border-left-color 0.3s ease;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+.info-table tbody tr.row-focused {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-left-color: var(--cyan);
+}
+.info-table tbody tr.dimmed {
+  opacity: 0.25;
+}
+
+.material-card.card-focused {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+.material-card.card-focused.card-cef3 { border-color: rgba(46,204,113,0.6) !important; box-shadow: 0 8px 25px rgba(46,204,113,0.15); }
+.material-card.card-focused.card-sr { border-color: rgba(231,76,60,0.6) !important; box-shadow: 0 8px 25px rgba(231,76,60,0.15); }
+.material-card.card-focused.card-perov { border-color: rgba(243,156,18,0.6) !important; box-shadow: 0 8px 25px rgba(243,156,18,0.15); }
+.material-card.dimmed {
+  opacity: 0.35;
+  transform: scale(0.98);
+}
+
+/* Vibrational Phonon Animations */
+@keyframes vibrate-excited {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+@keyframes vibrate-ground {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1.5px); }
+}
+
+/* CC highlight classes from log rows hover */
+.highlight-abs {
+  stroke: var(--cyan) !important;
+  stroke-width: 2.8px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px var(--cyan)) !important;
+}
+.highlight-emiss {
+  stroke: var(--green) !important;
+  stroke-width: 2.8px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px var(--green)) !important;
+}
+.highlight-quench {
+  stroke: var(--red) !important;
+  stroke-width: 2.2px !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px var(--red)) !important;
+}
+
+#cc-cross-dot.active-crossover {
+  animation: pulse-crossover 0.4s ease-in-out infinite !important;
+}
+
+@keyframes propagate-wave {
+  to { stroke-dashoffset: -20; }
+}
+@keyframes pulse-glow {
+  0%, 100% { r: 12px; opacity: 0.45; }
+  50% { r: 20px; opacity: 0.8; }
+}
+@keyframes pulse-crossover {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.35); opacity: 1; filter: drop-shadow(0 0 6px #E74C3C); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photon-wave {
+    animation: propagate-wave 1.5s linear infinite;
+  }
+  .quench-glow-circle {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  #cc-cross-dot {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse-crossover 2s ease-in-out infinite;
+  }
+  .v-level-excited.vibrate {
+    stroke: var(--cyan) !important;
+    stroke-width: 1.2px !important;
+    opacity: 0.95 !important;
+    animation: vibrate-excited 0.08s linear infinite;
+  }
+  .v-level-ground.vibrate {
+    stroke: #ffffff !important;
+    stroke-width: 1.2px !important;
+    opacity: 0.95 !important;
+    animation: vibrate-ground 0.08s linear infinite;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 13 — CIERRE
+   ═══════════════════════════════════════════════ */
+.close-statement {
+  font-family: var(--font-h);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 780px;
+  margin-bottom: 32px;
+  color: var(--white);
+}
+.close-statement em { color: var(--cyan); font-style: normal; }
+.close-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.close-num {
+  font-family: var(--font-m);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cyan);
+  opacity: 0.3;
+  margin-bottom: 6px;
+}
+.close-body { font-size: 0.82rem; line-height: 1.55; color: var(--dim); }
+.close-body strong { color: var(--white); }
+.close-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+
+/* ═══════════════════════════════════════════════
+   2x2 GRID CARDS
+   ═══════════════════════════════════════════════ */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE BG DECORATIONS
+   ═══════════════════════════════════════════════ */
+.bg-glow-tl {
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.bg-glow-br {
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+</style>
+
+<style>
+/* Enable navigation controls even if there is only one slide */
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-right {
+  opacity: 0.8 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section>
+<div class="slide-inner">
+  <div class="bg-glow-tl"></div>
+  <div class="bg-glow-br"></div>
+  <div class="slide-subtitle">Quenching térmico</div>
+  <h2 class="slide-title">El modelo de Mott–Seitz</h2>
+  <hr class="rule-cyan">
+
+  <!-- Main Widescreen Layout -->
+  <div class="ms-grid-container">
+    <!-- Top Row: Diagrams -->
+    <div class="ms-top-row">
+      <!-- Left: Experimental Curves Card -->
+      <div class="ms-visual-card">
+        <div class="corner-bracket cb-tl"></div>
+        <div class="corner-bracket cb-tr"></div>
+        <div class="corner-bracket cb-bl"></div>
+        <div class="corner-bracket cb-br"></div>
+        
+        <!-- Corner crosshairs (+) -->
+        <span class="hud-cross hc-tl">+</span>
+        <span class="hud-cross hc-tr">+</span>
+        <span class="hud-cross hc-bl">+</span>
+        <span class="hud-cross hc-br">+</span>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px;">
+          <div class="ms-visual-title">Datos Experimentales: Curvas <span style="text-transform: none;">&eta;</span>(T)</div>
+          <span style="font-family: var(--font-m); font-size: 0.55rem; color: var(--dim); letter-spacing: 0.08em;">SYS.LOG.01 // OPTICAL</span>
+        </div>
+
+        <div class="ms-card-inner-split ms-left-split">
+          <!-- SVG Curves -->
+          <svg id="ms-svg" viewBox="22 10 393 266" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; width:100%; height:auto; max-height:295px;">
+            <defs>
+              <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Technical grid lines -->
+            <!-- Horizontal grid lines -->
+            <line x1="50" y1="137.5" x2="400" y2="137.5" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3" stroke-width="1.2"/>
+            <line x1="50" y1="25" x2="400" y2="25" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3" stroke-width="1.2"/>
+            <!-- Vertical grid lines -->
+            <line x1="160" y1="25" x2="160" y2="250" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3" stroke-width="1.2"/>
+            <line x1="380" y1="25" x2="380" y2="250" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3,3" stroke-width="1.2"/>
+
+            <!-- axes -->
+            <line x1="50" y1="250" x2="400" y2="250" stroke="rgba(255,255,255,0.25)" stroke-width="1.8"/>
+            <line x1="50" y1="10"  x2="50"  y2="250" stroke="rgba(255,255,255,0.25)" stroke-width="1.8"/>
+            <!-- axis labels -->
+            <text x="220" y="272" fill="#8892a4" font-size="13" text-anchor="middle" font-family="JetBrains Mono, monospace">Temperatura (K)</text>
+            <text x="12" y="140" fill="#8892a4" font-size="13" text-anchor="middle" font-family="JetBrains Mono, monospace" transform="rotate(-90,12,140)">&eta;(T)</text>
+            <!-- tick labels -->
+            <text x="50"  y="266" fill="#8892a4" font-size="11" text-anchor="middle" font-family="JetBrains Mono, monospace">100</text>
+            <text x="160" y="266" fill="#8892a4" font-size="11" text-anchor="middle" font-family="JetBrains Mono, monospace">200</text>
+            <text x="270" y="266" fill="#8892a4" font-size="11" text-anchor="middle" font-family="JetBrains Mono, monospace">300</text>
+            <text x="380" y="266" fill="#8892a4" font-size="11" text-anchor="middle" font-family="JetBrains Mono, monospace">400</text>
+            <text x="40" y="30"   fill="#8892a4" font-size="11" text-anchor="end"    font-family="JetBrains Mono, monospace">1.0</text>
+            <text x="40" y="150"  fill="#8892a4" font-size="11" text-anchor="end"    font-family="JetBrains Mono, monospace">0.5</text>
+            <text x="40" y="253"  fill="#8892a4" font-size="11" text-anchor="end"    font-family="JetBrains Mono, monospace">0.0</text>
+
+            <!-- T1/2 Indicators (crosshairs) -->
+            <g id="ms-t12-perov" opacity="0">
+              <line x1="85" y1="137.5" x2="85" y2="250" stroke="rgba(243,156,18,0.5)" stroke-width="1.8" stroke-dasharray="2,2"/>
+              <line x1="50" y1="137.5" x2="85" y2="137.5" stroke="rgba(243,156,18,0.5)" stroke-width="1.8" stroke-dasharray="2,2"/>
+              <circle cx="85" cy="137.5" r="5" fill="#F39C12" stroke="#ffffff" stroke-width="1.0"/>
+              <text x="91" y="132" fill="#F39C12" font-size="9.5" font-family="JetBrains Mono, monospace" font-weight="700">T₁/₂ &approx; 130 K</text>
+            </g>
+            <g id="ms-t12-sr" opacity="0">
+              <line x1="190" y1="137.5" x2="190" y2="250" stroke="rgba(231,76,60,0.5)" stroke-width="1.8" stroke-dasharray="2,2"/>
+              <line x1="50" y1="137.5" x2="190" y2="137.5" stroke="rgba(231,76,60,0.5)" stroke-width="1.8" stroke-dasharray="2,2"/>
+              <circle cx="190" cy="137.5" r="5" fill="#E74C3C" stroke="#ffffff" stroke-width="1.0"/>
+              <text x="196" y="132" fill="#E74C3C" font-size="9.5" font-family="JetBrains Mono, monospace" font-weight="700">T₁/₂ &approx; 230 K</text>
+            </g>
+
+            <!-- CeF3 curve (T1/2 >> 400K — stays high) -->
+            <path id="ms-curve-cef3" class="ms-curve-path" d="M50,25 C120,25 200,26 270,28 S370,34 400,40"
+              stroke="#2ECC71" stroke-width="3.8" fill="none"
+              stroke-dasharray="400" stroke-dashoffset="400" opacity="0.85" filter="url(#glow-green)"/>
+            <text x="405" y="44" fill="#2ECC71" font-size="12" font-family="JetBrains Mono, monospace" font-weight="700">CeF₃</text>
+
+            <!-- SrAl2O4 blue site (T1/2 ~ 250K) -->
+            <path id="ms-curve-sr" class="ms-curve-path" d="M50,26 C80,26 110,30 140,60 S190,140 210,175 S240,220 280,238 S350,245 400,246"
+              stroke="#E74C3C" stroke-width="3.8" fill="none"
+              stroke-dasharray="600" stroke-dashoffset="600" opacity="0.85" filter="url(#glow-red)"/>
+            <text x="145" y="52" fill="#E74C3C" font-size="12" font-family="JetBrains Mono, monospace" font-weight="700">SrAl₂O₄ (azul)</text>
+
+            <!-- Perovskitas 3D (T1/2 ~ 100K) -->
+            <path id="ms-curve-perov" class="ms-curve-path" d="M50,26 C60,40 70,80 85,140 S110,200 140,228 S200,242 400,246"
+              stroke="#F39C12" stroke-width="3.8" fill="none" stroke-dasharray="600" stroke-dashoffset="600" opacity="0.85" filter="url(#glow-amber)"/>
+            <text x="65" y="80" fill="#F39C12" font-size="12" font-family="JetBrains Mono, monospace" font-weight="700">Perov. 3D</text>
+
+            <!-- T = 300K dashed line -->
+            <line id="ms-300k" x1="270" y1="10" x2="270" y2="250"
+              stroke="rgba(0,212,255,0.45)" stroke-width="1.8" stroke-dasharray="4,2" opacity="0"/>
+            <text id="ms-300k-lbl" x="274" y="22" fill="rgba(0,212,255,0.85)" font-size="10" font-family="JetBrains Mono, monospace" font-weight="700" opacity="0">T = 300 K [Ambiente]</text>
+
+            <!-- dots on CeF3 at 300K -->
+            <circle id="ms-dot-cef3" class="ms-dot-circle" cx="270" cy="29" r="7" fill="#2ECC71" opacity="0" stroke="rgba(255,255,255,0.85)" stroke-width="1.2"/>
+            <circle id="ms-dot-sr"   class="ms-dot-circle" cx="270" cy="205" r="7" fill="#E74C3C" opacity="0" stroke="rgba(255,255,255,0.85)" stroke-width="1.2"/>
+            <circle id="ms-dot-perov" class="ms-dot-circle" cx="270" cy="243" r="7" fill="#F39C12" opacity="0" stroke="rgba(255,255,255,0.85)" stroke-width="1.2"/>
+
+            <!-- Live Coordinates Tracker Group (hidden by default, pointer-events disabled) -->
+            <g id="ms-tracker" opacity="0" style="pointer-events: none; transition: opacity 0.2s ease;">
+              <line id="tracker-x-line" x1="0" y1="25" x2="0" y2="250" stroke="rgba(0, 212, 255, 0.5)" stroke-width="1.0" stroke-dasharray="2,2"/>
+              <line id="tracker-y-line" x1="50" y1="0" x2="400" y2="0" stroke="rgba(0, 212, 255, 0.5)" stroke-width="1.0" stroke-dasharray="2,2"/>
+              <circle id="tracker-dot" cx="0" cy="0" r="6.0" fill="#00d4ff" stroke="#ffffff" stroke-width="1.5" filter="url(#glow-cyan)"/>
+              <g id="tracker-tooltip">
+                <rect id="tracker-tooltip-bg" x="0" y="0" width="76" height="34" fill="rgba(7, 7, 15, 0.92)" stroke="#00d4ff" stroke-width="1" rx="4"/>
+                <text id="tracker-text-t" x="8" y="14" fill="#ffffff" font-size="8.5" font-family="JetBrains Mono, monospace" font-weight="700">T: --- K</text>
+                <text id="tracker-text-eta" x="8" y="25" fill="#00d4ff" font-size="8.5" font-family="JetBrains Mono, monospace" font-weight="700">&eta;: -.--</text>
+              </g>
+            </g>
+          </svg>
+
+          <!-- Info Panel comparison table -->
+          <div class="info-panel">
+            <div class="info-title">Parámetros Críticos</div>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>Mat.</th>
+                  <th>E<sub>a</sub></th>
+                  <th>Stk.</th>
+                  <th>Est.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row-cef3">
+                  <td class="bold text-green">CeF₃</td>
+                  <td class="text-mono">&gt;500</td>
+                  <td class="text-mono">50 nm</td>
+                  <td>
+                    <span class="hud-pill pill-g">
+                      <span class="led"></span>ESTABLE
+                    </span>
+                  </td>
+                </tr>
+                <tr id="row-sr">
+                  <td class="bold text-red">SrAl₂O₄</td>
+                  <td class="text-mono">~350</td>
+                  <td class="text-mono">90 nm</td>
+                  <td>
+                    <span class="hud-pill pill-r">
+                      <span class="led"></span>APAGADO
+                    </span>
+                  </td>
+                </tr>
+                <tr id="row-perov">
+                  <td class="bold text-amber">Perov. 3D</td>
+                  <td class="text-mono">26</td>
+                  <td class="text-mono">15 nm</td>
+                  <td>
+                    <span class="hud-pill pill-a">
+                      <span class="led"></span>CRÍTICO
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="info-note">
+              * A <strong>300 K</strong>, la energía térmica (k<sub>B</sub>T &approx; 26 meV) es comparable con la E<sub>a</sub> de perovskitas, causando quenching catastrófico.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: CC Physical Diagram Card -->
+      <div class="ms-visual-card">
+        <div class="corner-bracket cb-tl"></div>
+        <div class="corner-bracket cb-tr"></div>
+        <div class="corner-bracket cb-bl"></div>
+        <div class="corner-bracket cb-br"></div>
+        
+        <!-- Corner crosshairs (+) -->
+        <span class="hud-cross hc-tl">+</span>
+        <span class="hud-cross hc-tr">+</span>
+        <span class="hud-cross hc-bl">+</span>
+        <span class="hud-cross hc-br">+</span>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.06); padding-bottom: 8px; gap: 8px;">
+          <div class="ms-visual-title" style="margin-bottom: 0;">Mecanismo: Coordenadas de Configuración</div>
+          
+          <!-- Glassmorphic Equation Badge -->
+          <div class="ms-eq-glass-inline">
+            <span class="ms-eq-badge-lbl">Modelo:</span>
+            <span class="formula-html">
+              <span class="greek">&eta;</span>(<span class="var">T</span>) = 
+              <div class="fraction">
+                <span class="num">1</span>
+                <span class="den">1 + C &middot; e<sup>-E<sub>a</sub> / k<sub>B</sub>T</sup></span>
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div class="ms-card-inner-split ms-right-split">
+          <!-- CC Diagram SVG -->
+          <svg id="ms-cc-svg" viewBox="20 15 285 202" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; width:100%; height:auto; max-height:295px;">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8892a4" />
+              </marker>
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#00d4ff" />
+              </marker>
+              <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2ECC71" />
+              </marker>
+              <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <!-- Radial Gradient for Quenching Crossover Zone -->
+              <radialGradient id="quench-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#E74C3C" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#E74C3C" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="photon-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2ECC71" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#2ECC71" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Axes -->
+            <line x1="40" y1="200" x2="300" y2="200" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" marker-end="url(#arrow)"/>
+            <line x1="40" y1="20"  x2="40"  y2="200" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" marker-end="url(#arrow)"/>
+            <text x="290" y="217" fill="#8892a4" font-size="11" text-anchor="end" font-family="JetBrains Mono, monospace">Coordenada q</text>
+            <text x="12" y="30" fill="#8892a4" font-size="11" text-anchor="middle" font-family="JetBrains Mono, monospace" transform="rotate(-90,12,30)">Energía</text>
+
+            <!-- Crossover Heatmap Glow (drawn behind paths) -->
+            <circle cx="148" cy="108" r="22" fill="url(#quench-glow)" class="quench-glow-circle"/>
+
+            <!-- Vibrational Energy Levels (Ground State Basal) -->
+            <line class="v-level v-level-ground" x1="90" y1="155" x2="130" y2="155" />
+            <line class="v-level v-level-ground" x1="76" y1="145" x2="144" y2="145" />
+            <line class="v-level v-level-ground" x1="65" y1="135" x2="155" y2="135" />
+            <line class="v-level v-level-ground" x1="55" y1="125" x2="165" y2="125" />
+
+            <!-- Ground State Parabola (Basal state) -->
+            <path id="cc-ground-state" d="M 50,90 Q 110,230 180,130" stroke="rgba(255,255,255,0.3)" stroke-width="3.2" fill="none"/>
+            <text x="36" y="180" fill="rgba(255,255,255,0.5)" font-size="11" font-family="JetBrains Mono, monospace">Basal (¹S₀)</text>
+
+            <!-- Vibrational Energy Levels (Excited State) -->
+            <line class="v-level v-level-excited" x1="165" y1="117" x2="195" y2="117" />
+            <line class="v-level v-level-excited" x1="154" y1="111" x2="206" y2="111" />
+            <line class="v-level v-level-excited" x1="145" y1="105" x2="215" y2="105" />
+            <line class="v-level v-level-excited" x1="137" y1="99"  x2="223" y2="99"  />
+            <line class="v-level v-level-excited" x1="130" y1="93"  x2="230" y2="93"  />
+
+            <!-- Excited State Parabola -->
+            <path id="cc-excited-state" d="M 120,50 Q 180,160 240,50" stroke="var(--cyan)" stroke-width="3.5" fill="none" opacity="0.8" filter="url(#glow-cyan)"/>
+            <text x="220" y="74" fill="var(--cyan)" font-size="11" font-family="JetBrains Mono, monospace" font-weight="700">Excitado (³P₁)</text>
+
+            <!-- Dotted projection line from GS minimum to bottom axis -->
+            <line id="cc-qg-line" x1="110" y1="160" x2="110" y2="200" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="2,2" opacity="0"/>
+            <text id="cc-qg-lbl" x="110" y="212" fill="rgba(255,255,255,0.4)" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="middle" opacity="0">q₀</text>
+
+            <!-- Dotted projection line from ES minimum to bottom axis -->
+            <line id="cc-qe-line" x1="180" y1="120" x2="180" y2="200" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="2,2" opacity="0"/>
+            <text id="cc-qe-lbl" x="180" y="212" fill="rgba(255,255,255,0.4)" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="middle" opacity="0">q₀*</text>
+
+            <!-- Displacement Δq indicator line -->
+            <line id="cc-dq-tick1" x1="110" y1="187" x2="110" y2="193" stroke="var(--cyan)" stroke-width="1.6" opacity="0"/>
+            <line id="cc-dq-tick2" x1="180" y1="187" x2="180" y2="193" stroke="var(--cyan)" stroke-width="1.6" opacity="0"/>
+            <line id="cc-dq-line" x1="110" y1="190" x2="180" y2="190" stroke="var(--cyan)" stroke-width="1.6" opacity="0"/>
+            <text id="cc-dq-lbl" x="145" y="183" fill="var(--cyan)" font-size="9" font-family="JetBrains Mono, monospace" text-anchor="middle" opacity="0">Δq (Stokes)</text>
+
+            <!-- Crossing Point / Crossover point -->
+            <circle id="cc-cross-dot" cx="148" cy="108" r="6.0" fill="#E74C3C" stroke="rgba(255,255,255,0.85)" stroke-width="1.2" opacity="0"/>
+            <text id="cc-cross-lbl" x="148" y="90" fill="#E74C3C" font-size="11" font-family="JetBrains Mono, monospace" font-weight="700" text-anchor="middle" opacity="0">Crossover (NR)</text>
+
+            <!-- Activation Energy Ea Dimension -->
+            <line id="cc-ea-line1" x1="148" y1="108" x2="180" y2="108" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2,2" opacity="0"/>
+            <line id="cc-ea-line2" x1="180" y1="120" x2="180" y2="108" stroke="#F39C12" stroke-width="2.2" marker-end="url(#arrow)" opacity="0"/>
+            <text id="cc-ea-lbl" x="190" y="108" fill="#F39C12" font-size="10.5" font-family="JetBrains Mono, monospace" font-weight="700" opacity="0">Ea</text>
+
+            <!-- Absorption transition (upward blue arrow) -->
+            <line id="cc-absorp" x1="110" y1="160" x2="110" y2="75" stroke="#00d4ff" stroke-width="3.2" marker-end="url(#arrow-blue)" opacity="0"/>
+            <text id="cc-absorp-lbl" x="100" y="125" fill="#00d4ff" font-size="10" font-family="JetBrains Mono, monospace" font-weight="700" opacity="0" transform="rotate(-90,100,125)" text-anchor="middle">Absorción (FC)</text>
+
+            <!-- Emission transition (downward green arrow) -->
+            <line id="cc-emiss" x1="180" y1="120" x2="180" y2="162" stroke="#2ECC71" stroke-width="3.2" marker-end="url(#arrow-green)" opacity="0"/>
+            <text id="cc-emiss-lbl" x="187" y="152" fill="#2ECC71" font-size="10" font-family="JetBrains Mono, monospace" font-weight="700" opacity="0">Emisión</text>
+
+            <!-- Photon wave packet (wavelet) propagation path -->
+            <path id="cc-photon-wave" class="photon-wave" d="M 180,148 Q 185,143 190,148 T 200,148 Q 205,136 210,148 T 220,148 Q 225,144 230,148" fill="none" stroke="url(#photon-fade)" stroke-width="2.2" stroke-dasharray="4,4" opacity="0"/>
+            <!-- Photon wave label -->
+            <text id="cc-photon-lbl" x="205" y="133" fill="#2ECC71" font-size="10" font-family="JetBrains Mono, monospace" font-weight="700" opacity="0">Fotón (h&nu;)</text>
+
+            <!-- Non-radiative path (wavy path or arrow over the barrier) -->
+            <path id="cc-nonrad" d="M 180,120 C 170,113 160,108 148,108" stroke="#E74C3C" stroke-width="2.2" fill="none" stroke-dasharray="3,3" opacity="0"/>
+
+            <!-- Dynamic Energy flow bubbles (SMIL Animations) -->
+            <!-- Absorption bubble -->
+            <circle id="cc-absorp-pulse" cx="110" cy="160" r="3.5" fill="#00d4ff" opacity="0">
+              <animate attributeName="cy" from="160" to="75" dur="2s" repeatCount="indefinite" begin="1.4s"/>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="2s" repeatCount="indefinite" begin="1.4s"/>
+            </circle>
+
+            <!-- Emission bubble -->
+            <circle id="cc-emiss-pulse" cx="180" cy="120" r="3.5" fill="#2ECC71" opacity="0">
+              <animate attributeName="cy" from="120" to="162" dur="1.5s" repeatCount="indefinite" begin="2.0s"/>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="1.5s" repeatCount="indefinite" begin="2.0s"/>
+            </circle>
+
+            <!-- Quenching / heat thermal crawl bubble -->
+            <circle id="cc-nonrad-pulse" cx="0" cy="0" r="3" fill="#E74C3C" opacity="0">
+              <animateMotion path="M 180,120 C 170,113 160,108 148,108" dur="1.5s" repeatCount="indefinite" begin="3.5s" />
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.8;1" dur="1.5s" repeatCount="indefinite" begin="3.5s"/>
+            </circle>
+          </svg>
+
+          <!-- Info Panel physical stages log (Terminal Style) -->
+          <div class="info-panel">
+            <div class="info-title">Dinámica Excitónica</div>
+            <div class="terminal-log">
+              <div class="log-row">
+                <span class="log-tag">[01.ABS]</span>
+                <div class="log-body">
+                  <span class="log-title">Absorción Franck-Condon</span>
+                  <span class="log-desc">¹S₀ &rarr; ³P₁ vertical. q₀ sin cambio.</span>
+                </div>
+                <span class="log-status stat-ok">OK</span>
+              </div>
+              <div class="log-row">
+                <span class="log-tag">[02.RELAX]</span>
+                <div class="log-body">
+                  <span class="log-title">Relajación Stokes (Δq)</span>
+                  <span class="log-desc">Ajuste de red en ³P₁. Emisión o cruce.</span>
+                </div>
+                <span class="log-status stat-ok">OK</span>
+              </div>
+              <div class="log-row">
+                <span class="log-tag tag-red">[03.QUENCH]</span>
+                <div class="log-body">
+                  <span class="log-title">Cruce Térmico (NR)</span>
+                  <span class="log-desc">Eₐ superada por k_BT. Disipación calor.</span>
+                </div>
+                <span class="log-status stat-warn">ACT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: 4 Material Behavior Cards -->
+    <div class="ms-bottom-row fragment">
+      <!-- Card 1: CeF3 -->
+      <div class="material-card card-cef3" style="--delay: 1;">
+        <div>
+          <div class="card-badge badge-green">Estabilidad Alta</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <svg class="card-icon text-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <div class="card-m-title">CeF₃</div>
+          </div>
+          <div class="card-m-desc">Coeficiente térmico de apenas <strong>0.05%/°C</strong>. Óptimo para campo y temperaturas elevadas.</div>
+        </div>
+        <div>
+          <div class="card-metadata">
+            <span>COEF: -0.05%/°C</span>
+            <span>T₁/₂: &gt;&gt; 400 K</span>
+          </div>
+          <div class="meter-stat-row">
+            <span>Estabilidad Térmica</span>
+            <span class="text-green">95%</span>
+          </div>
+          <div class="stability-meter-container">
+            <div id="meter-cef3" class="stability-meter meter-green"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: SrAl2O4 -->
+      <div class="material-card card-sr" style="--delay: 2;">
+        <div>
+          <div class="card-badge badge-red">Apagado Térmico</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <svg class="card-icon text-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+            </svg>
+            <div class="card-m-title">SrAl₂O₄:Eu²⁺</div>
+          </div>
+          <div class="card-m-desc">Temperatura de desactivación <strong>T₁/₂ &lt; 300 K</strong>. Se apaga por completo a temperatura ambiente.</div>
+        </div>
+        <div>
+          <div class="card-metadata">
+            <span>T₁/₂: &lt; 300 K</span>
+            <span>EFIC. AMB: ~20%</span>
+          </div>
+          <div class="meter-stat-row">
+            <span>Estabilidad Térmica</span>
+            <span class="text-red">30%</span>
+          </div>
+          <div class="stability-meter-container">
+            <div id="meter-sr" class="stability-meter meter-red"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Perovskitas 3D -->
+      <div class="material-card card-perov" style="--delay: 3;">
+        <div>
+          <div class="card-badge badge-amber">Crítico / Excitones</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <svg class="card-icon text-amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <div class="card-m-title">Perovskitas 3D</div>
+          </div>
+          <div class="card-m-desc">Energía de activación <strong>E<sub>a</sub> = 6–53 meV</strong> vs <strong>k<sub>B</sub>T ≈ 26 meV</strong>. Disociación catastrófica.</div>
+        </div>
+        <div>
+          <div class="card-metadata">
+            <span>Eₐ: 6-53 meV</span>
+            <span>k_B T: ~26 meV</span>
+          </div>
+          <div class="meter-stat-row">
+            <span>Estabilidad Térmica</span>
+            <span class="text-amber">10%</span>
+          </div>
+          <div class="stability-meter-container">
+            <div id="meter-perov" class="stability-meter meter-amber"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Requisito de Diseño -->
+      <div class="material-card card-req" style="--delay: 4;">
+        <div>
+          <div class="card-badge badge-cyan">Requisito de Diseño</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <svg class="card-icon text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2v20M2 12h20"/>
+            </svg>
+            <div class="card-m-title">Operación Portátil</div>
+          </div>
+          <div class="card-m-desc">En detector de campo, la temperatura no se controla. Requerimiento crítico: <strong>T₁/₂ &gt; 350 K</strong>.</div>
+        </div>
+        <div>
+          <div class="card-metadata">
+            <span>T₁/₂ REQ: &gt; 350 K</span>
+            <span>REFRIG: Ninguna</span>
+          </div>
+          <div class="meter-stat-row">
+            <span>Requisito Mínimo</span>
+            <span class="text-cyan">&gt;85%</span>
+          </div>
+          <div class="stability-meter-container">
+            <div id="meter-req" class="stability-meter meter-cyan"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<!-- Reveal.js -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// STABILITY METERS ANIMATION
+// ═══════════════════════════════════════════════
+function animateStabilityMeters() {
+  const cef3 = document.getElementById('meter-cef3');
+  const sr = document.getElementById('meter-sr');
+  const perov = document.getElementById('meter-perov');
+  const req = document.getElementById('meter-req');
+  
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (cef3) cef3.style.width = '95%';
+    if (sr) sr.style.width = '30%';
+    if (perov) perov.style.width = '10%';
+    if (req) req.style.width = '85%';
+    return;
+  }
+  
+  if (cef3) cef3.style.width = '95%';
+  if (sr) sr.style.width = '30%';
+  if (perov) perov.style.width = '10%';
+  if (req) req.style.width = '85%';
+}
+
+function resetStabilityMeters() {
+  const cef3 = document.getElementById('meter-cef3');
+  const sr = document.getElementById('meter-sr');
+  const perov = document.getElementById('meter-perov');
+  const req = document.getElementById('meter-req');
+  
+  if (cef3) cef3.style.width = '0%';
+  if (sr) sr.style.width = '0%';
+  if (perov) perov.style.width = '0%';
+  if (req) req.style.width = '0%';
+}
+
+// ═══════════════════════════════════════════════
+// MOTT-SEITZ SVG & CC ANIMATIONS
+// ═══════════════════════════════════════════════
+function animateMottSeitz() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. Reset experimental graph elements
+  const curves = [
+    { id: 'ms-curve-cef3', dash: 400 },
+    { id: 'ms-curve-sr', dash: 600 },
+    { id: 'ms-curve-perov', dash: 600 }
+  ];
+  const dots = ['ms-dot-cef3', 'ms-dot-sr', 'ms-dot-perov'];
+  const line300 = document.getElementById('ms-300k');
+  const lbl300 = document.getElementById('ms-300k-lbl');
+  
+  const t12Perov = document.getElementById('ms-t12-perov');
+  const t12Sr = document.getElementById('ms-t12-sr');
+
+  curves.forEach(({ id, dash }) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.transition = 'none';
+      el.style.strokeDasharray = dash;
+      el.style.strokeDashoffset = dash;
+    }
+  });
+  dots.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+    }
+  });
+  if (line300) { line300.style.transition = 'none'; line300.style.opacity = '0'; }
+  if (lbl300) { lbl300.style.transition = 'none'; lbl300.style.opacity = '0'; }
+  if (t12Perov) { t12Perov.style.transition = 'none'; t12Perov.style.opacity = '0'; }
+  if (t12Sr) { t12Sr.style.transition = 'none'; t12Sr.style.opacity = '0'; }
+
+  // 2. Reset CC diagram elements
+  const ccGround = document.getElementById('cc-ground-state');
+  const ccExcited = document.getElementById('cc-excited-state');
+  const ccAbsorp = document.getElementById('cc-absorp');
+  const ccAbsorpLbl = document.getElementById('cc-absorp-lbl');
+  const ccEmiss = document.getElementById('cc-emiss');
+  const ccEmissLbl = document.getElementById('cc-emiss-lbl');
+  const ccCrossDot = document.getElementById('cc-cross-dot');
+  const ccCrossLbl = document.getElementById('cc-cross-lbl');
+  const ccEaLine1 = document.getElementById('cc-ea-line1');
+  const ccEaLine2 = document.getElementById('cc-ea-line2');
+  const ccEaLbl = document.getElementById('cc-ea-lbl');
+  const ccNonrad = document.getElementById('cc-nonrad');
+
+  const ccQgLine = document.getElementById('cc-qg-line');
+  const ccQgLbl = document.getElementById('cc-qg-lbl');
+  const ccQeLine = document.getElementById('cc-qe-line');
+  const ccQeLbl = document.getElementById('cc-qe-lbl');
+  const ccDqTick1 = document.getElementById('cc-dq-tick1');
+  const ccDqTick2 = document.getElementById('cc-dq-tick2');
+  const ccDqLine = document.getElementById('cc-dq-line');
+  const ccDqLbl = document.getElementById('cc-dq-lbl');
+
+  const vLevels = document.querySelectorAll('.v-level');
+  const ccPhotonWave = document.getElementById('cc-photon-wave');
+  const ccPhotonLbl = document.getElementById('cc-photon-lbl');
+
+  if (ccGround) {
+    ccGround.style.transition = 'none';
+    ccGround.style.strokeDasharray = '250';
+    ccGround.style.strokeDashoffset = '250';
+  }
+  if (ccExcited) {
+    ccExcited.style.transition = 'none';
+    ccExcited.style.strokeDasharray = '200';
+    ccExcited.style.strokeDashoffset = '200';
+  }
+  [ccAbsorp, ccEmiss].forEach(el => {
+    if (el) {
+      el.style.transition = 'none';
+      el.style.strokeDasharray = '100';
+      el.style.strokeDashoffset = '100';
+      el.style.opacity = '0';
+    }
+  });
+  [ccAbsorpLbl, ccEmissLbl, ccCrossDot, ccCrossLbl, ccEaLine1, ccEaLine2, ccEaLbl, ccNonrad, ccQgLine, ccQgLbl, ccQeLine, ccQeLbl, ccDqTick1, ccDqTick2, ccDqLine, ccDqLbl, ccPhotonLbl].forEach(el => {
+    if (el) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+    }
+  });
+  vLevels.forEach(el => {
+    if (el) {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+    }
+  });
+  if (ccNonrad) {
+    ccNonrad.style.transition = 'none';
+    ccNonrad.style.strokeDasharray = '80';
+    ccNonrad.style.strokeDashoffset = '80';
+  }
+  if (ccEaLine2) {
+    ccEaLine2.style.transition = 'none';
+    ccEaLine2.style.strokeDasharray = '20';
+    ccEaLine2.style.strokeDashoffset = '20';
+  }
+  if (ccPhotonWave) {
+    ccPhotonWave.style.transition = 'none';
+    ccPhotonWave.style.opacity = '0';
+  }
+
+  // 3. Reset Info Panels (fade out, blur)
+  const infoPanels = document.querySelectorAll('.info-panel');
+  infoPanels.forEach(el => {
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.filter = 'blur(2px)';
+  });
+
+  // Force reflow
+  document.body.getBoundingClientRect();
+
+  // Reset SVG SMIL timelines
+  const ccSvg = document.getElementById('ms-cc-svg');
+  if (ccSvg && ccSvg.setCurrentTime) {
+    try {
+      ccSvg.setCurrentTime(0);
+    } catch (e) {}
+  }
+
+  // If reduced motion is preferred, show everything immediately
+  if (prefersReduced) {
+    curves.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) el.style.strokeDashoffset = '0';
+    });
+    dots.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.opacity = '1';
+    });
+    if (line300) line300.style.opacity = '1';
+    if (lbl300) lbl300.style.opacity = '1';
+    if (t12Perov) t12Perov.style.opacity = '1';
+    if (t12Sr) t12Sr.style.opacity = '1';
+
+    if (ccGround) ccGround.style.strokeDashoffset = '0';
+    if (ccExcited) ccExcited.style.strokeDashoffset = '0';
+    [ccAbsorp, ccEmiss, ccNonrad, ccEaLine2].forEach(el => {
+      if (el) { el.style.strokeDashoffset = '0'; el.style.opacity = '1'; }
+    });
+    [ccAbsorpLbl, ccEmissLbl, ccCrossDot, ccCrossLbl, ccEaLine1, ccEaLbl, ccQgLine, ccQgLbl, ccQeLine, ccQeLbl, ccDqTick1, ccDqTick2, ccDqLine, ccDqLbl, ccPhotonLbl].forEach(el => {
+      if (el) el.style.opacity = '1';
+    });
+    vLevels.forEach(el => {
+      if (el) el.style.opacity = '0.4';
+    });
+    if (ccPhotonWave) ccPhotonWave.style.opacity = '0.85';
+    infoPanels.forEach(el => {
+      el.style.opacity = '1';
+      el.style.filter = 'none';
+    });
+    
+    // Pause SVG SMIL animations
+    if (ccSvg && ccSvg.pauseAnimations) {
+      try {
+        ccSvg.pauseAnimations();
+      } catch (e) {}
+    }
+
+    // Also fill stability meters immediately if bottom row is already visible
+    const bottomRow = document.querySelector('.ms-bottom-row');
+    if (bottomRow && bottomRow.classList.contains('visible')) {
+      animateStabilityMeters();
+    }
+    return;
+  }
+
+  // Resume SVG SMIL animations if they were paused
+  if (ccSvg && ccSvg.unpauseAnimations) {
+    try {
+      ccSvg.unpauseAnimations();
+    } catch (e) {}
+  }
+
+  // 3. Trigger Experimental Graph Animations
+  curves.forEach(({ id }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let d = 0;
+    if (id === 'ms-curve-cef3') d = 0;
+    if (id === 'ms-curve-sr') d = 300;
+    if (id === 'ms-curve-perov') d = 600;
+    setTimeout(() => {
+      el.style.transition = 'stroke-dashoffset 1.0s cubic-bezier(.25,.8,.25,1)';
+      el.style.strokeDashoffset = '0';
+    }, d);
+  });
+
+  setTimeout(() => {
+    if (line300) { line300.style.transition = 'opacity 0.6s ease'; line300.style.opacity = '1'; }
+    if (lbl300) { lbl300.style.transition = 'opacity 0.6s ease'; lbl300.style.opacity = '1'; }
+    dots.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.4s cubic-bezier(.175,.885,.32,1.275)';
+        el.style.opacity = '1';
+      }, i * 120);
+    });
+  }, 1200);
+
+  // Fade-in the T1/2 indicators
+  setTimeout(() => {
+    if (t12Perov) { t12Perov.style.transition = 'opacity 0.6s ease'; t12Perov.style.opacity = '1'; }
+    if (t12Sr) { t12Sr.style.transition = 'opacity 0.6s ease'; t12Sr.style.opacity = '1'; }
+  }, 1600);
+
+  // 4. Trigger CC Diagram Animations
+  // Draw ground and excited parabolas
+  setTimeout(() => {
+    if (ccGround) {
+      ccGround.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.25,.8,.25,1)';
+      ccGround.style.strokeDashoffset = '0';
+    }
+    if (ccExcited) {
+      ccExcited.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.25,.8,.25,1)';
+      ccExcited.style.strokeDashoffset = '0';
+    }
+  }, 200);
+
+  // Fade in Info Panels (blur-to-sharp)
+  setTimeout(() => {
+    infoPanels.forEach(el => {
+      el.style.transition = 'opacity 0.8s cubic-bezier(.25,.8,.25,1), filter 0.8s cubic-bezier(.25,.8,.25,1)';
+      el.style.opacity = '1';
+      el.style.filter = 'blur(0px)';
+    });
+  }, 600);
+
+  // Show Reference coordinate axes, lines, vibrational levels and displacement Δq
+  setTimeout(() => {
+    vLevels.forEach(el => {
+      if (el) {
+        el.style.transition = 'opacity 0.8s ease';
+        el.style.opacity = '0.4';
+      }
+    });
+    [ccQgLine, ccQgLbl, ccQeLine, ccQeLbl, ccDqTick1, ccDqTick2, ccDqLine, ccDqLbl].forEach(el => {
+      if (el) {
+        el.style.transition = 'opacity 0.6s ease';
+        el.style.opacity = '1';
+      }
+    });
+  }, 800);
+
+  // Draw Absorption
+  setTimeout(() => {
+    if (ccAbsorp) {
+      ccAbsorp.style.opacity = '1';
+      ccAbsorp.style.transition = 'stroke-dashoffset 0.8s cubic-bezier(.25,.8,.25,1)';
+      ccAbsorp.style.strokeDashoffset = '0';
+    }
+    if (ccAbsorpLbl) {
+      ccAbsorpLbl.style.transition = 'opacity 0.5s ease';
+      ccAbsorpLbl.style.opacity = '1';
+    }
+  }, 1400);
+
+  // Draw Emission
+  setTimeout(() => {
+    if (ccEmiss) {
+      ccEmiss.style.opacity = '1';
+      ccEmiss.style.transition = 'stroke-dashoffset 0.8s cubic-bezier(.25,.8,.25,1)';
+      ccEmiss.style.strokeDashoffset = '0';
+    }
+    if (ccEmissLbl) {
+      ccEmissLbl.style.transition = 'opacity 0.5s ease';
+      ccEmissLbl.style.opacity = '1';
+    }
+  }, 2000);
+
+  // Show photon wave and label
+  setTimeout(() => {
+    if (ccPhotonWave) {
+      ccPhotonWave.style.transition = 'opacity 0.6s ease';
+      ccPhotonWave.style.opacity = '0.85';
+    }
+    if (ccPhotonLbl) {
+      ccPhotonLbl.style.transition = 'opacity 0.6s ease';
+      ccPhotonLbl.style.opacity = '0.85';
+    }
+  }, 2400);
+
+  // Show Crossover Dot & Label
+  setTimeout(() => {
+    if (ccCrossDot) {
+      ccCrossDot.style.transition = 'opacity 0.5s cubic-bezier(.175,.885,.32,1.275)';
+      ccCrossDot.style.opacity = '1';
+    }
+    if (ccCrossLbl) {
+      ccCrossLbl.style.transition = 'opacity 0.5s ease';
+      ccCrossLbl.style.opacity = '1';
+    }
+  }, 2600);
+
+  // Show Ea Indicator
+  setTimeout(() => {
+    if (ccEaLine1) { ccEaLine1.style.transition = 'opacity 0.4s ease'; ccEaLine1.style.opacity = '1'; }
+    if (ccEaLine2) {
+      ccEaLine2.style.opacity = '1';
+      ccEaLine2.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(.25,.8,.25,1)';
+      ccEaLine2.style.strokeDashoffset = '0';
+    }
+    if (ccEaLbl) { ccEaLbl.style.transition = 'opacity 0.4s ease'; ccEaLbl.style.opacity = '1'; }
+  }, 3000);
+
+  // Draw Non-radiative Crossover path
+  setTimeout(() => {
+    if (ccNonrad) {
+      ccNonrad.style.opacity = '1';
+      ccNonrad.style.transition = 'stroke-dashoffset 1.0s cubic-bezier(.25,.8,.25,1)';
+      ccNonrad.style.strokeDashoffset = '0';
+    }
+  }, 3500);
+}
+
+// ═══════════════════════════════════════════════
+// INTERACTIVE DASHBOARD HOVER BINDING
+// ═══════════════════════════════════════════════
+function initInteractions() {
+  const materials = ['cef3', 'sr', 'perov'];
+  
+  materials.forEach(mat => {
+    const card = document.querySelector(`.card-${mat}`);
+    const row = document.getElementById(`row-${mat}`);
+    const curve = document.getElementById(`ms-curve-${mat}`);
+    const dot = document.getElementById(`ms-dot-${mat}`);
+    
+    // We bind enter and leave on the card and the row
+    if (card) {
+      card.addEventListener('mouseenter', () => highlightMaterial(mat));
+      card.addEventListener('mouseleave', () => clearHighlight());
+    }
+    if (row) {
+      row.addEventListener('mouseenter', () => highlightMaterial(mat));
+      row.addEventListener('mouseleave', () => clearHighlight());
+    }
+    if (curve) {
+      curve.addEventListener('mouseenter', () => highlightMaterial(mat));
+      curve.addEventListener('mouseleave', () => clearHighlight());
+    }
+    if (dot) {
+      dot.addEventListener('mouseenter', () => highlightMaterial(mat));
+      dot.addEventListener('mouseleave', () => clearHighlight());
+    }
+  });
+
+  // Terminal log rows interactive links (CC Diagram Highlight & Lattice Vibrations)
+  const logRows = document.querySelectorAll('.log-row');
+  
+  if (logRows.length >= 3) {
+    const absArrow = document.getElementById('cc-absorp');
+    const absLbl = document.getElementById('cc-absorp-lbl');
+    const emissArrow = document.getElementById('cc-emiss');
+    const emissLbl = document.getElementById('cc-emiss-lbl');
+    const photonWave = document.getElementById('cc-photon-wave');
+    const crossDot = document.getElementById('cc-cross-dot');
+    const crossLbl = document.getElementById('cc-cross-lbl');
+    const eaLine1 = document.getElementById('cc-ea-line1');
+    const eaLine2 = document.getElementById('cc-ea-line2');
+    const eaLbl = document.getElementById('cc-ea-lbl');
+    const nonradArrow = document.getElementById('cc-nonrad');
+    const quenchGlow = document.querySelector('.quench-glow-circle');
+    const photonLbl = document.getElementById('cc-photon-lbl');
+    
+    const vGround = document.querySelectorAll('.v-level-ground');
+    const vExcited = document.querySelectorAll('.v-level-excited');
+
+    // [01.ABS] Row Hover - Ground states highlight
+    logRows[0].addEventListener('mouseenter', () => {
+      if (absArrow) absArrow.classList.add('highlight-abs');
+      if (absLbl) absLbl.classList.add('highlight-abs');
+      vGround.forEach(el => el.classList.add('highlighted'));
+    });
+    logRows[0].addEventListener('mouseleave', () => {
+      if (absArrow) absArrow.classList.remove('highlight-abs');
+      if (absLbl) absLbl.classList.remove('highlight-abs');
+      vGround.forEach(el => el.classList.remove('highlighted'));
+    });
+
+    // [02.RELAX] Row Hover - Excited states vibrate (phonons) & Emission highlight
+    logRows[1].addEventListener('mouseenter', () => {
+      if (emissArrow) emissArrow.classList.add('highlight-emiss');
+      if (emissLbl) emissLbl.classList.add('highlight-emiss');
+      if (photonWave) photonWave.classList.add('highlight-emiss');
+      if (photonLbl) photonLbl.classList.add('highlight-emiss');
+      vExcited.forEach(el => el.classList.add('vibrate'));
+    });
+    logRows[1].addEventListener('mouseleave', () => {
+      if (emissArrow) emissArrow.classList.remove('highlight-emiss');
+      if (emissLbl) emissLbl.classList.remove('highlight-emiss');
+      if (photonWave) photonWave.classList.remove('highlight-emiss');
+      if (photonLbl) photonLbl.classList.remove('highlight-emiss');
+      vExcited.forEach(el => el.classList.remove('vibrate'));
+    });
+
+    // [03.QUENCH] Row Hover - Ground states vibrate (heat) & Crossover/Ea highlight
+    logRows[2].addEventListener('mouseenter', () => {
+      if (crossDot) { crossDot.classList.add('highlight-quench', 'active-crossover'); }
+      if (crossLbl) crossLbl.classList.add('highlight-quench');
+      if (eaLine1) eaLine1.classList.add('highlight-quench');
+      if (eaLine2) eaLine2.classList.add('highlight-quench');
+      if (eaLbl) eaLbl.classList.add('highlight-quench');
+      if (nonradArrow) nonradArrow.classList.add('highlight-quench');
+      if (quenchGlow) quenchGlow.classList.add('highlight-quench');
+      vGround.forEach(el => el.classList.add('vibrate'));
+    });
+    logRows[2].addEventListener('mouseleave', () => {
+      if (crossDot) { crossDot.classList.remove('highlight-quench', 'active-crossover'); }
+      if (crossLbl) crossLbl.classList.remove('highlight-quench');
+      if (eaLine1) eaLine1.classList.remove('highlight-quench');
+      if (eaLine2) eaLine2.classList.remove('highlight-quench');
+      if (eaLbl) eaLbl.classList.remove('highlight-quench');
+      if (nonradArrow) nonradArrow.classList.remove('highlight-quench');
+      if (quenchGlow) quenchGlow.classList.remove('highlight-quench');
+      vGround.forEach(el => el.classList.remove('vibrate'));
+    });
+  }
+}
+
+function highlightMaterial(mat) {
+  const mClasses = ['cef3', 'sr', 'perov'];
+  
+  mClasses.forEach(m => {
+    const card = document.querySelector(`.card-${m}`);
+    const row = document.getElementById(`row-${m}`);
+    const curve = document.getElementById(`ms-curve-${m}`);
+    const dot = document.getElementById(`ms-dot-${m}`);
+    
+    if (m === mat) {
+      if (card) card.classList.add('card-focused');
+      if (row) row.classList.add('row-focused');
+      if (curve) {
+        let highlightClass = 'highlight-green';
+        if (m === 'sr') highlightClass = 'highlight-red';
+        if (m === 'perov') highlightClass = 'highlight-amber';
+        curve.classList.add(highlightClass);
+      }
+      if (dot) dot.classList.add('highlighted');
+    } else {
+      if (card) card.classList.add('dimmed');
+      if (row) row.classList.add('dimmed');
+      if (curve) curve.classList.add('dimmed');
+      if (dot) dot.style.opacity = '0.15';
+    }
+  });
+}
+
+function clearHighlight() {
+  const mClasses = ['cef3', 'sr', 'perov'];
+  mClasses.forEach(m => {
+    const card = document.querySelector(`.card-${m}`);
+    const row = document.getElementById(`row-${m}`);
+    const curve = document.getElementById(`ms-curve-${m}`);
+    const dot = document.getElementById(`ms-dot-${m}`);
+    
+    if (card) { card.classList.remove('card-focused', 'dimmed'); }
+    if (row) { row.classList.remove('row-focused', 'dimmed'); }
+    if (curve) {
+      curve.classList.remove('highlight-green', 'highlight-red', 'highlight-amber', 'dimmed');
+    }
+    if (dot) {
+      dot.classList.remove('highlighted');
+      dot.style.opacity = '';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+// LIVE COORDINATES TRACKER
+// ═══════════════════════════════════════════════
+function initTracker() {
+  const svg = document.getElementById('ms-svg');
+  const tracker = document.getElementById('ms-tracker');
+  const xLine = document.getElementById('tracker-x-line');
+  const yLine = document.getElementById('tracker-y-line');
+  const dot = document.getElementById('tracker-dot');
+  const tooltip = document.getElementById('tracker-tooltip');
+  const textT = document.getElementById('tracker-text-t');
+  const textEta = document.getElementById('tracker-text-eta');
+  
+  if (!svg || !tracker) return;
+  
+  svg.addEventListener('mousemove', (e) => {
+    const rect = svg.getBoundingClientRect();
+    // Calculate SVG coordinate space coordinates (viewBox is 420x280)
+    const x = ((e.clientX - rect.left) / rect.width) * 420;
+    const y = ((e.clientY - rect.top) / rect.height) * 280;
+    
+    // Bounds clipping (axes limits: x=50..400, y=25..250)
+    if (x >= 50 && x <= 400 && y >= 25 && y <= 250) {
+      tracker.style.opacity = '1';
+      
+      // Update tracker lines and dot
+      xLine.setAttribute('x1', x);
+      xLine.setAttribute('x2', x);
+      
+      yLine.setAttribute('y1', y);
+      yLine.setAttribute('y2', y);
+      
+      dot.setAttribute('cx', x);
+      dot.setAttribute('cy', y);
+      
+      // Calculate physics values
+      // X axis: 50 -> 100K, 380 -> 400K (span of 330px for 300K range)
+      const T = 100 + ((x - 50) / 330) * 300;
+      
+      // Y axis: 25 -> 1.0, 250 -> 0.0 (span of 225px)
+      const eta = 1.0 - (y - 25) / 225;
+      
+      textT.textContent = `T: ${Math.round(T)} K`;
+      textEta.textContent = `\u03B7: ${eta.toFixed(2)}`;
+      
+      // Tooltip position (prevent crop on SVG borders)
+      let tx = x + 10;
+      let ty = y - 40;
+      
+      if (x > 320) tx = x - 86; // width of tooltip box is 76px
+      if (y < 60) ty = y + 10;
+      
+      tooltip.setAttribute('transform', `translate(${tx}, ${ty})`);
+    } else {
+      tracker.style.opacity = '0';
+    }
+  });
+  
+  svg.addEventListener('mouseenter', () => {
+    tracker.style.opacity = '1';
+  });
+  
+  svg.addEventListener('mouseleave', () => {
+    tracker.style.opacity = '0';
+  });
+}
+
+Reveal.initialize({
+  hash: true,
+  slideNumber: () => [4, '/', 10],
+  transition: 'slide',
+  transitionSpeed: 'default',
+  backgroundTransition: 'fade',
+  controls: true,
+  progress: true,
+  center: false,
+  width: 1280,
+  height: 720,
+  margin: 0,
+  plugins: [],
+  keyboard: true,
+});
+
+Reveal.on('slidechanged', event => {
+  const idx = event.indexh;
+  if (document.getElementById('ms-svg')) {
+    setTimeout(animateMottSeitz, 400);
+  }
+});
+
+// fragment events
+Reveal.on('fragmentshown', event => {
+  if (event.fragment.classList.contains('ms-bottom-row')) {
+    animateStabilityMeters();
+  }
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+});
+
+Reveal.on('fragmenthidden', event => {
+  if (event.fragment.classList.contains('ms-bottom-row')) {
+    resetStabilityMeters();
+  }
+});
+
+// Run MathJax, interactions and animations after reveal is ready
+Reveal.on('ready', () => {
+  if (document.getElementById('ms-svg')) {
+    setTimeout(animateMottSeitz, 400);
+  }
+  // Check if bottom row is already visible (not a fragment or fragment already shown)
+  const bottomRow = document.querySelector('.ms-bottom-row');
+  if (bottomRow && bottomRow.classList.contains('visible')) {
+    animateStabilityMeters();
+  }
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+  
+  // Initialize cross-highlight bindings
+  initInteractions();
+  
+  // Initialize Live coordinates tracker
+  initTracker();
+});
+</script>
+
+<script>
+(function() {
+  const prevSlideUrl = 'presentacion_slide_3.html';
+  const nextSlideUrl = 'presentacion_slide_5.html';
+
+  function navigateTo(url) {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+
+    const key = event.key;
+    if (['ArrowRight', 'Space', 'PageDown', 'n', 'l'].includes(key)) {
+      event.preventDefault();
+      navigateTo(nextSlideUrl);
+    } else if (['ArrowLeft', 'PageUp', 'p', 'h'].includes(key)) {
+      event.preventDefault();
+      navigateTo(prevSlideUrl);
+    }
+  });
+
+  // Touch swipe navigation
+  let touchstartX = 0;
+  let touchendX = 0;
+  
+  window.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  window.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleGesture();
+  }, { passive: true });
+
+  function handleGesture() {
+    const threshold = 50; // pixels
+    if (touchendX < touchstartX - threshold) {
+      navigateTo(nextSlideUrl);
+    }
+    if (touchendX > touchstartX + threshold) {
+      navigateTo(prevSlideUrl);
+    }
+  }
+
+  // Click handler for Reveal.js controls
+  Reveal.on('ready', () => {
+    const leftControl = document.querySelector('.navigate-left');
+    const rightControl = document.querySelector('.navigate-right');
+
+    if (leftControl && prevSlideUrl) {
+      leftControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(prevSlideUrl);
+      }, true);
+    }
+    if (rightControl && nextSlideUrl) {
+      rightControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(nextSlideUrl);
+      }, true);
+    }
+  });
+})();
+</script>
+</body>
+</html>

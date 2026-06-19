@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quenching en Materiales Luminiscentes Inorgánicos</title>
+
+<!-- Reveal.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    packages: {'[+]': ['boldsymbol']}
+  },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:       #07070f;
+  --bg2:      #0d0d1a;
+  --bg3:      #111125;
+  --cyan:     #00d4ff;
+  --cyan-dim: #0096b8;
+  --white:    #e8eaf0;
+  --dim:      #8892a4;
+  --green:    #2ECC71;
+  --amber:    #F39C12;
+  --red:      #E74C3C;
+  --purple:   #a78bfa;
+  --font-h:   'Syne', sans-serif;
+  --font-b:   'DM Sans', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+}
+
+/* ═══════════════════════════════════════════════
+   REVEAL OVERRIDES
+═══════════════════════════════════════════════ */
+.reveal-viewport { background: var(--bg); }
+.reveal { font-family: var(--font-b); color: var(--white); font-size: 18px; }
+.reveal .slides { text-align: left; }
+.reveal .slides section { padding: 0; height: 100%; box-sizing: border-box; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: var(--font-h);
+  text-transform: none;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+.reveal .progress { height: 3px; color: var(--cyan); }
+.reveal .controls { color: var(--cyan-dim); }
+.reveal .slide-number { color: var(--dim); font-family: var(--font-m); font-size: 12px; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 20px; }
+.reveal .slide-number-a { color: var(--white); }
+.reveal .slide-number-delimiter { color: var(--dim); margin: 0 2px; }
+.reveal .slide-number-b { color: var(--dim); }
+
+
+/* fragment defaults */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .fragment {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+    transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1),
+                transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                filter 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal .fragment.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal .fragment { opacity: 0; transition: opacity 0.01ms; }
+  .reveal .fragment.visible { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED LAYOUT HELPERS
+═══════════════════════════════════════════════ */
+.slide-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  padding: 48px 56px 36px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+.slide-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  color: var(--white);
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+.slide-subtitle {
+  font-size: 0.88rem;
+  color: var(--cyan);
+  font-family: var(--font-m);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; flex: 1; }
+
+/* ═══════════════════════════════════════════════
+   CARDS / CALLOUTS
+═══════════════════════════════════════════════ */
+.card {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.card-cyan { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.04); }
+.card-green { border-color: rgba(46,204,113,0.3); background: rgba(46,204,113,0.04); }
+.card-amber { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.05); }
+.card-red   { border-color: rgba(231,76,60,0.3);  background: rgba(231,76,60,0.05); }
+
+.card-label {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+.card-title {
+  font-family: var(--font-h);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.callout {
+  background: rgba(0,212,255,0.08);
+  border-left: 3px solid var(--cyan);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+.callout-amber { border-color: var(--amber); background: rgba(243,156,18,0.06); }
+.callout-red   { border-color: var(--red);   background: rgba(231,76,60,0.06); }
+.callout-green { border-color: var(--green); background: rgba(46,204,113,0.06); }
+
+.alert-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(231,76,60,0.12);
+  border: 1px solid rgba(231,76,60,0.4);
+  color: #ff7b6e;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-family: var(--font-m);
+}
+
+/* ═══════════════════════════════════════════════
+   TABLES
+═══════════════════════════════════════════════ */
+.sci-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.sci-table th {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0,212,255,0.25);
+  white-space: nowrap;
+}
+.sci-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top;
+  line-height: 1.4;
+}
+.sci-table tr:last-child td { border-bottom: none; }
+.sci-table tr:hover td { background: rgba(255,255,255,0.02); }
+.td-num { font-family: var(--font-m); color: var(--cyan); font-size: 0.82rem; }
+.td-note { color: var(--dim); font-size: 0.75rem; }
+.glow-cell { color: var(--cyan) !important; text-shadow: 0 0 12px rgba(0,212,255,0.6); font-family: var(--font-m); }
+
+/* semaphore cells */
+.cell-g { background: rgba(46,204,113,0.18);  color: #5eda94; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-a { background: rgba(243,156,18,0.18);  color: #f5b942; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-r { background: rgba(231,76,60,0.18);   color: #f07068; font-weight: 600; text-align: center; font-size: 0.72rem; padding: 5px 4px !important; transition: background 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1), color 220ms ease; }
+.cell-g.lit { background: rgba(46,204,113,0.42);  box-shadow: 0 0 10px rgba(46,204,113,0.4); }
+.cell-a.lit { background: rgba(243,156,18,0.42);  box-shadow: 0 0 10px rgba(243,156,18,0.4); }
+.cell-r.lit { background: rgba(231,76,60,0.42);   box-shadow: 0 0 10px rgba(231,76,60,0.4); }
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY UTILS
+═══════════════════════════════════════════════ */
+.text-cyan   { color: var(--cyan); }
+.text-green  { color: var(--green); }
+.text-amber  { color: var(--amber); }
+.text-red    { color: var(--red); }
+.text-dim    { color: var(--dim); }
+.text-mono   { font-family: var(--font-m); }
+.text-sm     { font-size: 0.8rem; }
+.text-xs     { font-size: 0.7rem; }
+.text-lg     { font-size: 1.05rem; }
+.bold        { font-weight: 700; }
+.mb4  { margin-bottom: 4px; }
+.mb8  { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.mb16 { margin-bottom: 16px; }
+.mb24 { margin-bottom: 24px; }
+.mt8  { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+
+/* prefers-reduced-motion global */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* eq glow */
+.eq-glow {
+  display: block;
+  text-align: center;
+  padding: 16px 0;
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+.eq-glow mjx-container { filter: drop-shadow(0 0 6px rgba(0,212,255,0.4)); }
+
+/* accent rule */
+.rule-cyan { height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); margin-bottom: 20px; border: none; }
+
+/* decorative corner line */
+.slide-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 60px;
+  background: linear-gradient(180deg, var(--cyan), transparent);
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 1 — HERO
+═══════════════════════════════════════════════ */
+#s1 { background: var(--bg); overflow: hidden; }
+#s1 .slide-inner::before { display: none; }
+#hero-canvas { position: absolute; inset: 0; z-index: 0; }
+.hero-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  justify-content: center; height: 100%;
+  padding: 56px 72px;
+}
+.hero-eyebrow {
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.hero-title {
+  font-family: var(--font-h);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--white);
+  max-width: 800px;
+  margin-bottom: 18px;
+}
+.hero-title span { color: var(--cyan); }
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--dim);
+  margin-bottom: 52px;
+  font-weight: 300;
+}
+.hero-author {
+  display: flex; align-items: center; gap: 16px;
+}
+.hero-author-line {
+  width: 32px; height: 1px;
+  background: var(--cyan);
+}
+.hero-author-text {
+  font-family: var(--font-m);
+  font-size: 0.75rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+.hero-author-text strong { color: var(--white); font-style: normal; }
+.hero-year {
+  position: absolute;
+  bottom: 40px; right: 72px;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 2 — PROBLEMA CENTRAL
+═══════════════════════════════════════════════ */
+.problem-eq-wrap {
+  background: var(--bg3);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,212,255,0.06);
+}
+.problem-eq-label {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.bullet-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.bullet-row:last-child { border-bottom: none; }
+.bullet-num {
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  min-width: 24px;
+  padding-top: 2px;
+}
+.bullet-text { font-size: 0.88rem; line-height: 1.5; }
+.bullet-text strong { color: var(--white); }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 3 — TAXONOMÍA
+═══════════════════════════════════════════════ */
+.tax-table { flex: 1; }
+.tax-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 10px 0;
+  align-items: center;
+}
+.tax-row.header {
+  border-bottom: 1px solid rgba(0,212,255,0.2);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+.tax-row.header span {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.tax-mech { font-weight: 600; font-size: 0.85rem; }
+.tax-type {
+  display: inline-block;
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.type-org  { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.type-t    { background: rgba(231,76,60,0.12);   color: #f07068;       border: 1px solid rgba(231,76,60,0.3); }
+.type-c    { background: rgba(0,212,255,0.1);    color: var(--cyan);   border: 1px solid rgba(0,212,255,0.25); }
+.type-tr   { background: rgba(243,156,18,0.12);  color: #f5b942;       border: 1px solid rgba(243,156,18,0.3); }
+.type-h    { background: rgba(46,204,113,0.1);   color: #5eda94;       border: 1px solid rgba(46,204,113,0.25); }
+.tax-var   { font-family: var(--font-m); font-size: 0.78rem; color: var(--dim); }
+.tax-mat   { font-size: 0.8rem; color: var(--dim); }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 4 — MOTT-SEITZ
+═══════════════════════════════════════════════ */
+.ms-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; flex: 1; align-items: start; }
+#ms-svg { width: 100%; }
+.ms-eq-box {
+  background: var(--bg3);
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.ms-points { display: flex; flex-direction: column; gap: 10px; }
+.ms-point {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.82rem;
+}
+.ms-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 9 — ZnS PARADOX
+═══════════════════════════════════════════════ */
+.paradox-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  flex: 1;
+  align-items: start;
+}
+.paradox-side {
+  border-radius: 12px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.paradox-left  { background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.25); }
+.paradox-right { background: rgba(0,212,255,0.05);   border: 1px solid rgba(0,212,255,0.2); }
+.paradox-label {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.paradox-title {
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.paradox-arrow {
+  font-size: 2.4rem;
+  text-align: center;
+  font-weight: 800;
+  line-height: 1;
+}
+.paradox-desc {
+  font-size: 0.82rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.paradox-stat {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+}
+.paradox-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 8px;
+}
+.paradox-vs {
+  font-family: var(--font-h);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--dim);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.15em;
+  transform: rotate(180deg);
+}
+.paradox-divider-line { width: 1px; flex: 1; background: rgba(255,255,255,0.08); }
+.paradox-truth {
+  background: rgba(0,212,255,0.06);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 8px;
+  padding: 12px 18px;
+  text-align: center;
+  font-family: var(--font-h);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 0.02em;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 10 — DECISION MATRIX
+═══════════════════════════════════════════════ */
+.matrix-wrap { flex: 1; overflow: auto; }
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.matrix-table th {
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  padding: 6px 5px;
+  border-bottom: 1px solid rgba(0,212,255,0.2);
+  text-align: center;
+  white-space: nowrap;
+}
+.matrix-table th:first-child { text-align: left; padding-left: 8px; }
+.matrix-table td:first-child {
+  font-size: 0.73rem;
+  padding: 5px 8px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+  color: var(--dim);
+}
+.matrix-table tr:last-child td { border-bottom: none; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 11 — BRIDGE
+═══════════════════════════════════════════════ */
+.bridge-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.bridge-node {
+  background: var(--bg3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.bridge-node-title {
+  font-family: var(--font-h);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bridge-connector {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+.bridge-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  position: relative;
+}
+.bridge-line::after {
+  content: 'η = kr/(kr + Σk_nri)';
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  color: var(--cyan);
+  white-space: nowrap;
+  opacity: 0.7;
+}
+.conn-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.conn-num {
+  font-family: var(--font-m);
+  font-size: 0.65rem;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.conn-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; }
+.conn-body  { font-size: 0.78rem; color: var(--dim); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 12 — TIMELINE
+═══════════════════════════════════════════════ */
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  flex: 1;
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 50px; right: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-dim), var(--purple));
+  z-index: 0;
+}
+.timeline-item { display: flex; flex-direction: column; align-items: center; padding-top: 0; }
+.timeline-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  position: relative; z-index: 1;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.timeline-dot.d1 { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,212,255,0.5); }
+.timeline-dot.d2 { border-color: var(--amber); box-shadow: 0 0 12px rgba(243,156,18,0.5); }
+.timeline-dot.d3 { border-color: var(--purple); box-shadow: 0 0 12px rgba(167,139,250,0.5); }
+.timeline-card { width: 100%; padding: 16px; box-sizing: border-box; }
+.timeline-phase {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.timeline-title { font-family: var(--font-h); font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+.timeline-body  { font-size: 0.78rem; color: var(--dim); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════
+   SLIDE 13 — CIERRE
+═══════════════════════════════════════════════ */
+.close-statement {
+  font-family: var(--font-h);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 780px;
+  margin-bottom: 32px;
+  color: var(--white);
+}
+.close-statement em { color: var(--cyan); font-style: normal; }
+.close-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.close-num {
+  font-family: var(--font-m);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cyan);
+  opacity: 0.3;
+  margin-bottom: 6px;
+}
+.close-body { font-size: 0.82rem; line-height: 1.55; color: var(--dim); }
+.close-body strong { color: var(--white); }
+.close-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font-m);
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+
+/* ═══════════════════════════════════════════════
+   2x2 GRID CARDS
+═══════════════════════════════════════════════ */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE BG DECORATIONS
+═══════════════════════════════════════════════ */
+.bg-glow-tl {
+  position: absolute;
+  top: -80px; left: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.bg-glow-br {
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   SLIDE 3 — INTERACTIVE SIMULATOR SPECIFIC
+   ═══════════════════════════════════════════════ */
+.tax-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+  flex: 1;
+  align-items: stretch;
+  min-height: 0;
+}
+
+/* Left column cards stack */
+.mech-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.mech-card-item {
+  background: var(--bg3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--card-accent, var(--dim));
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mech-card-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(var(--card-accent-rgb), 0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.mech-card-item:hover, .mech-card-item.active {
+  transform: translateX(6px);
+  border-color: rgba(var(--card-accent-rgb), 0.22);
+  border-left-color: var(--card-accent);
+  box-shadow: 0 4px 20px rgba(var(--card-accent-rgb), 0.12),
+              inset 0 0 8px rgba(var(--card-accent-rgb), 0.05);
+}
+
+.mech-card-item:hover::before, .mech-card-item.active::before {
+  opacity: 1;
+}
+
+/* Icon container inside card */
+.mech-card-icon-container {
+  width: 40px;
+  height: 40px;
+  background: rgba(var(--card-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--card-accent-rgb), 0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--card-accent);
+  transition: all 0.25s ease;
+  box-shadow: 0 0 10px rgba(var(--card-accent-rgb), 0.1);
+}
+
+.mech-card-item:hover .mech-card-icon-container,
+.mech-card-item.active .mech-card-icon-container {
+  background: var(--card-accent);
+  color: var(--bg);
+  box-shadow: 0 0 15px rgba(var(--card-accent-rgb), 0.4);
+  transform: scale(1.05);
+}
+
+.mech-icon-svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2;
+}
+
+/* Content inside card */
+.mech-card-content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mech-card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mech-card-title {
+  font-family: var(--font-h);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* Move type-badge styling to fit inline next to title */
+.mech-card-header-row .tax-type {
+  font-size: 0.6rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.mech-card-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: var(--dim);
+}
+
+.meta-field {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.meta-label {
+  opacity: 0.5;
+  font-family: var(--font-m);
+}
+
+.meta-value {
+  color: var(--white);
+}
+
+.meta-value.text-cyan {
+  color: var(--cyan);
+  font-family: var(--font-m);
+}
+
+/* Rate math label badge on the right edge (pill shape to fit LaTeX math horizontally) */
+.mech-card-rate-indicator {
+  width: auto;
+  min-width: 56px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.mech-card-rate-indicator .rate-math-label {
+  font-family: var(--font-m);
+  font-size: 0.78rem;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.mech-card-item:hover .mech-card-rate-indicator,
+.mech-card-item.active .mech-card-rate-indicator {
+  background: rgba(var(--card-accent-rgb), 0.1);
+  border-color: rgba(var(--card-accent-rgb), 0.4);
+  box-shadow: 0 0 10px rgba(var(--card-accent-rgb), 0.2);
+}
+
+.mech-card-item:hover .rate-math-label,
+.mech-card-item.active .rate-math-label {
+  color: var(--card-accent);
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(var(--card-accent-rgb), 0.3);
+}
+
+/* Right column dashboard simulator */
+.sim-dashboard {
+  background: var(--bg2);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  box-sizing: border-box;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.sim-dashboard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(var(--active-accent-rgb, 0, 212, 255), 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sim-dashboard.active-simulation::before {
+  opacity: 1;
+}
+
+.sim-dashboard.active-simulation {
+  border-color: rgba(var(--active-accent-rgb), 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--active-accent-rgb), 0.05);
+}
+
+.sim-header, .sim-eq-card, .sim-rates-stack, .sim-output-row {
+  position: relative;
+  z-index: 1;
+}
+
+.sim-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+.sim-title {
+  font-family: var(--font-h);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+
+.sim-eq-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.sim-eq-card.highlighted {
+  border-color: rgba(var(--active-accent-rgb, 0, 212, 255), 0.35);
+  box-shadow: 0 0 15px rgba(var(--active-accent-rgb, 0, 212, 255), 0.1);
+  background: rgba(var(--active-accent-rgb), 0.02);
+}
+
+.sim-eq-container {
+  display: inline-block;
+  font-size: 1.25rem;
+}
+
+/* Rates visual stack */
+.sim-rates-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sim-rate-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  transition: opacity 0.25s ease;
+}
+
+.sim-rate-row.inactive {
+  opacity: 0.25;
+}
+
+.sim-rate-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--dim);
+}
+
+.sim-rate-name {
+  font-family: var(--font-m);
+}
+
+.sim-rate-val {
+  font-family: var(--font-m);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.sim-rate-val.boosted {
+  color: var(--active-accent, var(--cyan));
+  text-shadow: 0 0 8px rgba(var(--active-accent-rgb), 0.4);
+}
+
+.sim-bar-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.sim-bar-fill {
+  height: 100%;
+  width: 15%;
+  background: var(--rate-color, var(--cyan));
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease;
+}
+
+.sim-rate-row.boosted .sim-bar-fill {
+  box-shadow: 0 0 10px var(--rate-color);
+  filter: brightness(1.2);
+}
+
+/* Output efficiency section */
+.sim-output-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.gauge-container {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-svg {
+  transform: rotate(-90deg);
+  width: 76px;
+  height: 76px;
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 8px;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke: var(--gauge-color, var(--cyan));
+  stroke-width: 8px;
+  stroke-linecap: round;
+  stroke-dasharray: 201;
+  stroke-dashoffset: 114;
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), stroke 0.3s ease;
+  filter: drop-shadow(0 0 6px var(--gauge-color-alpha, rgba(0, 212, 255, 0.3)));
+}
+
+.gauge-text {
+  position: absolute;
+  font-family: var(--font-m);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.sim-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 52px;
+}
+
+.sim-status-label {
+  font-family: var(--font-m);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Console-like readout panel */
+.sim-status-readout {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 6px 10px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.sim-status-desc {
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--white);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sim-status-desc em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.sim-status-desc.updating {
+  opacity: 0;
+  transform: translateY(2px);
+}
+
+/* Floating Detail Popovers Container (Backdrop Overlay) */
+.mech-popovers-container {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 12, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.35s;
+  visibility: hidden;
+  z-index: 100;
+}
+
+.mech-popovers-container.active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Individual Popover Window (Modal Style) */
+.mech-detail-popover {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 460px;
+  background: rgba(13, 13, 26, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 5px solid var(--popover-color, var(--cyan));
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
+              0 0 30px rgba(var(--popover-color-rgb), 0.15);
+  opacity: 0;
+  transform: translate(-50%, -46%) scale(0.96);
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.35s;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  pointer-events: none;
+  z-index: 105;
+}
+
+.mech-detail-popover,
+.mech-detail-popover * {
+  box-sizing: border-box;
+}
+
+.mech-detail-popover.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Close Button inside Popover */
+.popover-close-btn {
+  background: none;
+  border: none;
+  color: var(--dim);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin-right: -4px;
+}
+
+.popover-close-btn:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.popover-close-svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+/* Popover Content Typography */
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 8px;
+}
+
+.popover-title {
+  font-family: var(--font-h);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.popover-badge {
+  font-family: var(--font-m);
+  font-size: 0.58rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(var(--popover-color-rgb), 0.12);
+  color: var(--popover-color);
+  border: 1px solid rgba(var(--popover-color-rgb), 0.25);
+  font-weight: 600;
+}
+
+.popover-desc {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--dim);
+}
+
+.popover-desc em {
+  font-style: normal;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.popover-section-title {
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--popover-color);
+  margin-bottom: 4px;
+  opacity: 0.85;
+}
+
+.popover-formula-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 8px 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin: 2px 0;
+}
+
+.popover-formula-box mjx-container {
+  margin: 0 !important;
+  font-size: 1.05rem !important;
+}
+
+.popover-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.72rem;
+}
+
+.popover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popover-meta-val {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.popover-case-box {
+  background: rgba(var(--popover-color-rgb), 0.03);
+  border: 1px solid rgba(var(--popover-color-rgb), 0.08);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--dim);
+}
+
+.popover-case-box strong {
+  color: var(--white);
+  font-weight: 500;
+}
+</style>
+
+<style>
+/* Enable navigation controls even if there is only one slide */
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-right {
+  opacity: 0.8 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section>
+<div class="slide-inner">
+  <div class="slide-subtitle">Marco conceptual</div>
+  <h2 class="slide-title">Cinco mecanismos, un denominador común</h2>
+  <hr class="rule-cyan">
+
+  <div class="tax-layout">
+    <div class="mech-cards-stack">
+      <!-- Card 1 -->
+      <div class="mech-card-item fragment" id="mech-card-1" style="--card-accent: var(--purple); --card-accent-rgb: 167, 139, 250;" data-index="0">
+        <div class="mech-card-icon-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mech-icon-svg">
+            <path d="M13 2L3 14h9l-1 8 10-10h-9l1-8z"/>
+          </svg>
+        </div>
+        <div class="mech-card-content-wrap">
+          <div class="mech-card-header-row">
+            <span class="mech-card-title">Ionización (Birks)</span>
+            <span class="tax-type type-org">Ref. orgánica</span>
+          </div>
+          <div class="mech-card-meta-row">
+            <div class="meta-field">
+              <span class="meta-label">Variable:</span>
+              <span class="meta-value text-cyan">LET del campo</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">Materiales:</span>
+              <span class="meta-value">PSD orgánicos</span>
+            </div>
+          </div>
+        </div>
+        <div class="mech-card-rate-indicator">
+          <span class="rate-math-label">\(k_{nr}^{(1)}\)</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="mech-card-item fragment" id="mech-card-2" style="--card-accent: var(--red); --card-accent-rgb: 231, 76, 60;" data-index="1">
+        <div class="mech-card-icon-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mech-icon-svg">
+            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+            <path d="M12 9h.01"/>
+          </svg>
+        </div>
+        <div class="mech-card-content-wrap">
+          <div class="mech-card-header-row">
+            <span class="mech-card-title">Térmico</span>
+            <span class="tax-type type-t">Intrínseco–T</span>
+          </div>
+          <div class="mech-card-meta-row">
+            <div class="meta-field">
+              <span class="meta-label">Variable:</span>
+              <span class="meta-value text-cyan">Temperatura</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">Materiales:</span>
+              <span class="meta-value">Todos los inorgánicos</span>
+            </div>
+          </div>
+        </div>
+        <div class="mech-card-rate-indicator">
+          <span class="rate-math-label">\(k_{nr}^{(2)}\)</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="mech-card-item fragment" id="mech-card-3" style="--card-accent: var(--cyan); --card-accent-rgb: 0, 212, 255;" data-index="2">
+        <div class="mech-card-icon-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mech-icon-svg">
+            <path d="M16.3 11a7 7 0 1 1-8.6 0v-6h8.6v6z"/>
+            <path d="M6 3h12"/>
+            <path d="M12 11h.01"/>
+            <path d="M10 15h.01"/>
+            <path d="M14 15h.01"/>
+          </svg>
+        </div>
+        <div class="mech-card-content-wrap">
+          <div class="mech-card-header-row">
+            <span class="mech-card-title">Concentración</span>
+            <span class="tax-type type-c">Intrínseco–comp.</span>
+          </div>
+          <div class="mech-card-meta-row">
+            <div class="meta-field">
+              <span class="meta-label">Variable:</span>
+              <span class="meta-value text-cyan">[dopante]</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">Materiales:</span>
+              <span class="meta-value">Aluminatos, CeF₃</span>
+            </div>
+          </div>
+        </div>
+        <div class="mech-card-rate-indicator">
+          <span class="rate-math-label">\(k_{nr}^{(3)}\)</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="mech-card-item fragment" id="mech-card-4" style="--card-accent: var(--amber); --card-accent-rgb: 243, 156, 18;" data-index="3">
+        <div class="mech-card-icon-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mech-icon-svg">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="mech-card-content-wrap">
+          <div class="mech-card-header-row">
+            <span class="mech-card-title">Por trampas</span>
+            <span class="tax-type type-tr">Intrínseco/ext.</span>
+          </div>
+          <div class="mech-card-meta-row">
+            <div class="meta-field">
+              <span class="meta-label">Variable:</span>
+              <span class="meta-value text-cyan">Defectos de red</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">Materiales:</span>
+              <span class="meta-value">ZnS, ZnO, películas delgadas</span>
+            </div>
+          </div>
+        </div>
+        <div class="mech-card-rate-indicator">
+          <span class="rate-math-label">\(k_{nr}^{(4)}\)</span>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="mech-card-item fragment" id="mech-card-5" style="--card-accent: var(--green); --card-accent-rgb: 46, 204, 113;" data-index="4">
+        <div class="mech-card-icon-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mech-icon-svg">
+            <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"/>
+          </svg>
+        </div>
+        <div class="mech-card-content-wrap">
+          <div class="mech-card-header-row">
+            <span class="mech-card-title">Por hidrólisis</span>
+            <span class="tax-type type-h">Extrínseco–amb.</span>
+          </div>
+          <div class="mech-card-meta-row">
+            <div class="meta-field">
+              <span class="meta-label">Variable:</span>
+              <span class="meta-value text-cyan">Humedad</span>
+            </div>
+            <div class="meta-field">
+              <span class="meta-label">Materiales:</span>
+              <span class="meta-value">SrAl₂O₄</span>
+            </div>
+          </div>
+        </div>
+        <div class="mech-card-rate-indicator">
+          <span class="rate-math-label">\(k_{nr}^{(5)}\)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Simulator Dashboard -->
+    <div class="sim-dashboard fragment" id="sim-dashboard">
+      <div class="sim-header">
+        <div class="sim-title">Modelo de Canales de Desactivación</div>
+      </div>
+      
+      <div class="sim-eq-card" id="sim-eq-card">
+        <div class="sim-eq-container">
+          \(\eta = \frac{k_r}{k_r + \sum_{i=1}^5 k_{nr}^{(i)}}\)
+        </div>
+      </div>
+
+      <div class="sim-rates-stack">
+        <!-- Rate 1 -->
+        <div class="sim-rate-row" id="rate-row-0" style="--rate-color: var(--purple);">
+          <div class="sim-rate-labels">
+            <span class="sim-rate-name">Ionización (Birks) — \(k_{nr}^{(1)}\)</span>
+            <span class="sim-rate-val" id="rate-val-0">0.5 ns⁻¹</span>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill" id="rate-bar-0"></div>
+          </div>
+        </div>
+        
+        <!-- Rate 2 -->
+        <div class="sim-rate-row" id="rate-row-1" style="--rate-color: var(--red);">
+          <div class="sim-rate-labels">
+            <span class="sim-rate-name">Térmico — \(k_{nr}^{(2)}\)</span>
+            <span class="sim-rate-val" id="rate-val-1">0.4 ns⁻¹</span>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill" id="rate-bar-1"></div>
+          </div>
+        </div>
+
+        <!-- Rate 3 -->
+        <div class="sim-rate-row" id="rate-row-2" style="--rate-color: var(--cyan);">
+          <div class="sim-rate-labels">
+            <span class="sim-rate-name">Concentración — \(k_{nr}^{(3)}\)</span>
+            <span class="sim-rate-val" id="rate-val-2">0.5 ns⁻¹</span>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill" id="rate-bar-2"></div>
+          </div>
+        </div>
+
+        <!-- Rate 4 -->
+        <div class="sim-rate-row" id="rate-row-3" style="--rate-color: var(--amber);">
+          <div class="sim-rate-labels">
+            <span class="sim-rate-name">Trampas — \(k_{nr}^{(4)}\)</span>
+            <span class="sim-rate-val" id="rate-val-3">0.8 ns⁻¹</span>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill" id="rate-bar-3"></div>
+          </div>
+        </div>
+
+        <!-- Rate 5 -->
+        <div class="sim-rate-row" id="rate-row-4" style="--rate-color: var(--green);">
+          <div class="sim-rate-labels">
+            <span class="sim-rate-name">Hidrólisis — \(k_{nr}^{(5)}\)</span>
+            <span class="sim-rate-val" id="rate-val-4">0.3 ns⁻¹</span>
+          </div>
+          <div class="sim-bar-track">
+            <div class="sim-bar-fill" id="rate-bar-4"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-output-row">
+        <div class="gauge-container">
+          <svg class="gauge-svg">
+            <circle class="gauge-bg" cx="38" cy="38" r="32"></circle>
+            <circle class="gauge-fill" id="efficiency-gauge-fill" cx="38" cy="38" r="32"></circle>
+          </svg>
+          <span class="gauge-text" id="efficiency-gauge-text">43%</span>
+        </div>
+        <div class="sim-status">
+          <span class="sim-status-label">Eficiencia Cuántica (η)</span>
+          <div class="sim-status-readout">
+            <div class="sim-status-desc" id="sim-status-desc">
+              Canales en estado base. Pasa el cursor por los mecanismos para simular un <em>cuello de botella</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Detail Popovers Container (Backdrop Overlay) -->
+  <div class="mech-popovers-container" id="mech-popovers-container">
+    <!-- Popover 1: Ionización -->
+    <div class="mech-detail-popover" id="popover-0" style="--popover-color: var(--purple); --popover-color-rgb: 167, 139, 250;">
+      <div class="popover-header">
+        <span class="popover-title">Ionización (Birks)</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="popover-badge">LET</span>
+          <button class="popover-close-btn" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="popover-close-svg">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="popover-desc">
+        La ionización de la matriz orgánica induce quenching severo. La densidad local de excitación disipa la energía de forma no radiativa.
+      </div>
+      <div class="popover-meta-grid">
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Variable de control</span>
+          <span class="popover-meta-val">LET del campo</span>
+        </div>
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Materiales</span>
+          <span class="popover-meta-val">PSD orgánicos</span>
+        </div>
+      </div>
+      <div>
+        <span class="popover-section-title">Fórmula física</span>
+        <div class="popover-formula-box">
+          \(k_{nr}^{(1)} = A \cdot \text{LET} \cdot (1 + B \cdot \text{LET})^{-1}\)
+        </div>
+      </div>
+      <div class="popover-case-box">
+        <strong>Caso Práctico:</strong> Centelladores plásticos bajo irradiación de protones o iones de alta energía.
+      </div>
+    </div>
+
+    <!-- Popover 2: Térmico -->
+    <div class="mech-detail-popover" id="popover-1" style="--popover-color: var(--red); --popover-color-rgb: 231, 76, 60;">
+      <div class="popover-header">
+        <span class="popover-title">Quenching Térmico</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="popover-badge">Mott-Seitz</span>
+          <button class="popover-close-btn" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="popover-close-svg">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="popover-desc">
+        La energía térmica del sistema permite que el estado excitado cruce de forma no radiativa al estado base a través del punto de intersección.
+      </div>
+      <div class="popover-meta-grid">
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Variable de control</span>
+          <span class="popover-meta-val">Temperatura (T)</span>
+        </div>
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Energía de Activación</span>
+          <span class="popover-meta-val">\(\Delta E\) (Térmico)</span>
+        </div>
+      </div>
+      <div>
+        <span class="popover-section-title">Fórmula física</span>
+        <div class="popover-formula-box">
+          \(k_{nr}^{(2)}(T) = \nu_0 \exp\left(-\frac{\Delta E}{k_B T}\right)\)
+        </div>
+      </div>
+      <div class="popover-case-box">
+        <strong>Caso Práctico:</strong> Desactivación de luminiscencia en aluminatos dopados con \(Ce^{3+}\) por encima de 350 K.
+      </div>
+    </div>
+
+    <!-- Popover 3: Concentración -->
+    <div class="mech-detail-popover" id="popover-2" style="--popover-color: var(--cyan); --popover-color-rgb: 0, 212, 255;">
+      <div class="popover-header">
+        <span class="popover-title">Auto-quenching</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="popover-badge">Concentración</span>
+          <button class="popover-close-btn" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="popover-close-svg">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="popover-desc">
+        La transferencia resonante de energía (Förster o Dexter) entre activadores propaga la excitación hacia sumideros no radiativos (quenchers).
+      </div>
+      <div class="popover-meta-grid">
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Variable de control</span>
+          <span class="popover-meta-val">[dopante]</span>
+        </div>
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Mecanismo Principal</span>
+          <span class="popover-meta-val">Förster / Dexter</span>
+        </div>
+      </div>
+      <div>
+        <span class="popover-section-title">Fórmula física</span>
+        <div class="popover-formula-box">
+          \(k_{nr}^{(3)} = C \cdot \left(\frac{R_0}{R}\right)^6 \propto [\text{dopante}]^2\)
+        </div>
+      </div>
+      <div class="popover-case-box">
+        <strong>Caso Práctico:</strong> Pérdida de eficiencia cuántica en aluminatos cuando el dopaje con \(Ce^{3+}\) supera el 2.5% molar.
+      </div>
+    </div>
+
+    <!-- Popover 4: Por trampas -->
+    <div class="mech-detail-popover" id="popover-3" style="--popover-color: var(--amber); --popover-color-rgb: 243, 156, 18;">
+      <div class="popover-header">
+        <span class="popover-title">Quenching por Trampas</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="popover-badge">Defectos</span>
+          <button class="popover-close-btn" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="popover-close-svg">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="popover-desc">
+        Los defectos del cristal crean niveles de energía en la banda prohibida, atrapando portadores que luego se recombinan de forma no radiativa.
+      </div>
+      <div class="popover-meta-grid">
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Variable de control</span>
+          <span class="popover-meta-val">Defectos de Red</span>
+        </div>
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Parámetro Clave</span>
+          <span class="popover-meta-val">Densidad de trampas (\(N_t\))</span>
+        </div>
+      </div>
+      <div>
+        <span class="popover-section-title">Fórmula física</span>
+        <div class="popover-formula-box">
+          \(k_{nr}^{(4)} = N_t \cdot v_{th} \cdot \sigma_t\)
+        </div>
+      </div>
+      <div class="popover-case-box">
+        <strong>Caso Práctico:</strong> Vacancias de oxígeno o defectos estructurales en películas delgadas de ZnS o ZnO.
+      </div>
+    </div>
+
+    <!-- Popover 5: Por hidrólisis -->
+    <div class="mech-detail-popover" id="popover-4" style="--popover-color: var(--green); --popover-color-rgb: 46, 204, 113;">
+      <div class="popover-header">
+        <span class="popover-title">Hidrólisis Superficial</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="popover-badge">Extrínseco</span>
+          <button class="popover-close-btn" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="popover-close-svg">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="popover-desc">
+        La penetración del agua atmosférica descompone químicamente la red cristalina superficial, formando capas de degradación no emisivas.
+      </div>
+      <div class="popover-meta-grid">
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Variable de control</span>
+          <span class="popover-meta-val">Humedad Ambiente</span>
+        </div>
+        <div class="popover-meta-item">
+          <span class="popover-section-title">Producto de Reacción</span>
+          <span class="popover-meta-val">\(Al(OH)_3\) y \(SrCO_3\)</span>
+        </div>
+      </div>
+      <div>
+        <span class="popover-section-title">Fórmula química</span>
+        <div class="popover-formula-box">
+          \(\text{SrAl}_2\text{O}_4 + \text{H}_2\text{O} \xrightarrow{k_{nr}^{(5)}} \text{SrCO}_3 + \text{Al(OH)}_3\)
+        </div>
+      </div>
+      <div class="popover-case-box">
+        <strong>Caso Práctico:</strong> Degradación del luminóforo de \(SrAl_2O_4\) expuesto a humedad relativa mayor al 60%.
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<!-- Reveal.js -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// HERO CANVAS — scintillation particles
+// ═══════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  function Particle() {
+    this.reset();
+  }
+  Particle.prototype.reset = function() {
+    this.x    = Math.random() * canvas.width;
+    this.y    = Math.random() * canvas.height;
+    this.vx   = (Math.random() - 0.5) * 0.4;
+    this.vy   = (Math.random() - 0.5) * 0.4;
+    this.life = Math.random();
+    this.maxLife = 0.6 + Math.random() * 0.4;
+    this.r    = 0.6 + Math.random() * 1.4;
+    this.type = Math.random() < 0.15 ? 'trail' : 'dot';
+    this.hist = [];
+  };
+  Particle.prototype.update = function() {
+    this.hist.push({x:this.x, y:this.y});
+    if (this.hist.length > 6) this.hist.shift();
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life += 0.003;
+    if (this.life > this.maxLife ||
+        this.x < -10 || this.x > canvas.width + 10 ||
+        this.y < -10 || this.y > canvas.height + 10) {
+      this.reset();
+    }
+  };
+  Particle.prototype.draw = function() {
+    const alpha = Math.sin(this.life / this.maxLife * Math.PI) * 0.55;
+    if (this.type === 'trail' && this.hist.length > 2) {
+      ctx.beginPath();
+      ctx.moveTo(this.hist[0].x, this.hist[0].y);
+      for (let i=1; i<this.hist.length; i++) {
+        ctx.lineTo(this.hist[i].x, this.hist[i].y);
+      }
+      ctx.strokeStyle = `rgba(0,212,255,${alpha * 0.5})`;
+      ctx.lineWidth = this.r * 0.6;
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  };
+
+  function init() {
+    resize();
+    particles = Array.from({length: 90}, () => {
+      const p = new Particle();
+      p.life = Math.random() * p.maxLife;
+      return p;
+    });
+  }
+
+  let rafId = null;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    if (!prefersReduced.matches) rafId = requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  prefersReduced.addEventListener('change', () => {
+    if (!prefersReduced.matches) { loop(); } else if (rafId) { cancelAnimationFrame(rafId); }
+  });
+  init();
+  if (!prefersReduced.matches) loop();
+})();
+
+// ═══════════════════════════════════════════════
+// MOTT-SEITZ SVG ANIMATION
+// ═══════════════════════════════════════════════
+function animateMottSeitz() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    ['ms-curve-cef3','ms-curve-sr','ms-curve-perov'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.strokeDashoffset = '0';
+    });
+    ['ms-dot-cef3','ms-dot-sr','ms-dot-perov','ms-300k','ms-300k-lbl'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.opacity = '1';
+    });
+    return;
+  }
+  const curves = [
+    {id:'ms-curve-cef3',  dash:400,  delay:0},
+    {id:'ms-curve-sr',    dash:600,  delay:400},
+    {id:'ms-curve-perov', dash:600,  delay:800},
+  ];
+  const dots    = ['ms-dot-cef3','ms-dot-sr','ms-dot-perov'];
+  const line300 = document.getElementById('ms-300k');
+  const lbl300  = document.getElementById('ms-300k-lbl');
+
+  curves.forEach(({id, dash, delay}) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    setTimeout(() => {
+      el.style.transition = `stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)`;
+      el.style.strokeDashoffset = '0';
+    }, delay);
+  });
+
+  setTimeout(() => {
+    if (line300) { line300.style.transition = 'opacity 0.5s'; line300.style.opacity = '1'; }
+    if (lbl300)  { lbl300.style.transition  = 'opacity 0.5s'; lbl300.style.opacity  = '1'; }
+    dots.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.4s';
+        el.style.opacity = '1';
+      }, i * 150);
+    });
+  }, 1600);
+}
+
+// ═══════════════════════════════════════════════
+// DECISION MATRIX SCANNER
+// ═══════════════════════════════════════════════
+function scanMatrix() {
+  const table = document.getElementById('matrix-table');
+  if (!table) return;
+  const cells = table.querySelectorAll('td.cell-g, td.cell-a, td.cell-r');
+  const cols = 7;
+  let col = 0;
+  const interval = setInterval(() => {
+    cells.forEach(cell => {
+      const cellCol = cell.cellIndex;
+      if (cellCol === col + 1) {
+        cell.classList.add('lit');
+        setTimeout(() => cell.classList.remove('lit'), 900);
+      }
+    });
+    col++;
+    if (col >= cols) clearInterval(interval);
+  }, 160);
+}
+
+
+// ═══════════════════════════════════════════════
+// SLIDE 3 — INTERACTIVE SIMULATOR CONTROLLER
+// ═══════════════════════════════════════════════
+function initQuenchingSimulator() {
+  const cards = document.querySelectorAll('.mech-card-item');
+  const slideInner = document.querySelector('.slide-inner');
+  const popovers = [
+    document.getElementById('popover-0'),
+    document.getElementById('popover-1'),
+    document.getElementById('popover-2'),
+    document.getElementById('popover-3'),
+    document.getElementById('popover-4')
+  ];
+  const rateVals = [
+    document.getElementById('rate-val-0'),
+    document.getElementById('rate-val-1'),
+    document.getElementById('rate-val-2'),
+    document.getElementById('rate-val-3'),
+    document.getElementById('rate-val-4')
+  ];
+  const rateBars = [
+    document.getElementById('rate-bar-0'),
+    document.getElementById('rate-bar-1'),
+    document.getElementById('rate-bar-2'),
+    document.getElementById('rate-bar-3'),
+    document.getElementById('rate-bar-4')
+  ];
+  const rateRows = [
+    document.getElementById('rate-row-0'),
+    document.getElementById('rate-row-1'),
+    document.getElementById('rate-row-2'),
+    document.getElementById('rate-row-3'),
+    document.getElementById('rate-row-4')
+  ];
+  
+  const gaugeFill = document.getElementById('efficiency-gauge-fill');
+  const gaugeText = document.getElementById('efficiency-gauge-text');
+  const statusDesc = document.getElementById('sim-status-desc');
+  const eqCard = document.getElementById('sim-eq-card');
+  const simDashboard = document.getElementById('sim-dashboard');
+
+  if (!cards.length || !gaugeFill || !statusDesc || !simDashboard || !slideInner) return;
+
+  // Physical constants
+  const kr = 2.0; // Radiative rate constant (ns^-1)
+  const defaultRates = [0.5, 0.4, 0.5, 0.8, 0.3];
+  const maxRates = [8.0, 9.0, 7.5, 8.5, 6.0]; // Boosted rates representing bottleneck
+  
+  const colors = [
+    'var(--purple)', // Birks
+    'var(--red)',    // Térmico
+    'var(--cyan)',   // Concentración
+    'var(--amber)',  // Trampas
+    'var(--green)'   // Hidrólisis
+  ];
+  const rgbs = [
+    '167, 139, 250',
+    '231, 76, 60',
+    '0, 212, 255',
+    '243, 156, 18',
+    '46, 204, 113'
+  ];
+
+  const descriptions = [
+    '<em>Ionización (Birks):</em> Quenching severo por LET del campo. La ionización de la matriz orgánica disipa la excitación localmente.',
+    '<em>Térmico:</em> Quenching térmico masivo por cruzamiento térmico (Mott-Seitz). Los fonones disipan la energía a alta temperatura.',
+    '<em>Concentración:</em> Auto-quenching por alta densidad de activadores. La transferencia resonante no radiativa suprime la emisión.',
+    '<em>Por trampas:</em> Pérdida de portadores en defectos de red profundos. Captura de electrones/huecos que compite con la radiación.',
+    '<em>Por hidrólisis:</em> Desactivación química inducida por humedad. Degeneración superficial del luminóforo SrAl₂O₄.'
+  ];
+
+  // Gauge parameters
+  const r = 32;
+  const circumference = 2 * Math.PI * r;
+
+  let updateTextTimeout = null;
+  function updateDescriptionText(newHtml) {
+    if (updateTextTimeout) clearTimeout(updateTextTimeout);
+    statusDesc.classList.add('updating');
+    updateTextTimeout = setTimeout(() => {
+      statusDesc.innerHTML = newHtml;
+      statusDesc.classList.remove('updating');
+    }, 150);
+  }
+
+  function updateSimulator(hoveredIndex) {
+    let currentRates = [...defaultRates];
+    
+    if (hoveredIndex !== null) {
+      currentRates[hoveredIndex] = maxRates[hoveredIndex];
+      
+      // Update styling to focus on the active channel
+      eqCard.classList.add('highlighted');
+      eqCard.style.setProperty('--active-accent', colors[hoveredIndex]);
+      eqCard.style.setProperty('--active-accent-rgb', rgbs[hoveredIndex]);
+      
+      // Update dashboard dynamic glow
+      simDashboard.classList.add('active-simulation');
+      simDashboard.style.setProperty('--active-accent-rgb', rgbs[hoveredIndex]);
+    } else {
+      eqCard.classList.remove('highlighted');
+      simDashboard.classList.remove('active-simulation');
+    }
+
+    // Calculate sum of knr
+    const sumKnr = currentRates.reduce((a, b) => a + b, 0);
+    // Calculate efficiency eta = kr / (kr + sumKnr)
+    const efficiency = kr / (kr + sumKnr);
+    const effPercent = Math.round(efficiency * 100);
+
+    // Update gauge SVG
+    const offset = circumference - (efficiency * circumference);
+    gaugeFill.style.strokeDashoffset = offset;
+    gaugeText.textContent = effPercent + '%';
+
+    // Set gauge color based on efficiency
+    let gaugeColor = 'var(--cyan)';
+    let gaugeColorRGB = '0, 212, 255';
+    if (effPercent < 25) {
+      gaugeColor = 'var(--red)';
+      gaugeColorRGB = '231, 76, 60';
+    } else if (effPercent < 50) {
+      gaugeColor = 'var(--amber)';
+      gaugeColorRGB = '243, 156, 18';
+    } else {
+      gaugeColor = 'var(--green)';
+      gaugeColorRGB = '46, 204, 113';
+    }
+    
+    gaugeFill.style.setProperty('--gauge-color', gaugeColor);
+    gaugeFill.style.setProperty('--gauge-color-alpha', `rgba(${gaugeColorRGB}, 0.4)`);
+
+    // Update all rate bars
+    currentRates.forEach((rate, idx) => {
+      // Calculate visual fill percent (max display value = 10)
+      const fillPercent = (rate / 10) * 100;
+      rateBars[idx].style.width = fillPercent + '%';
+      rateVals[idx].textContent = rate.toFixed(1) + ' ns⁻¹';
+
+      // Highlight the boosted channel
+      if (hoveredIndex !== null) {
+        if (idx === hoveredIndex) {
+          rateRows[idx].classList.remove('inactive');
+          rateRows[idx].classList.add('boosted');
+          rateVals[idx].classList.add('boosted');
+          rateRows[idx].style.setProperty('--active-accent', colors[idx]);
+          rateRows[idx].style.setProperty('--active-accent-rgb', rgbs[idx]);
+        } else {
+          rateRows[idx].classList.add('inactive');
+          rateRows[idx].classList.remove('boosted');
+          rateVals[idx].classList.remove('boosted');
+        }
+      } else {
+        rateRows[idx].classList.remove('inactive');
+        rateRows[idx].classList.remove('boosted');
+        rateVals[idx].classList.remove('boosted');
+      }
+    });
+
+    // Update description with a smooth micro-animation
+    if (hoveredIndex !== null) {
+      updateDescriptionText(descriptions[hoveredIndex] + ' <strong style="color:var(--red)">¡Cuello de botella activo!</strong>');
+    } else {
+      updateDescriptionText('Canales en estado base. Pasa el cursor por los mecanismos para simular un <em>cuello de botella</em>.');
+    }
+  }
+
+  const popoversContainer = document.getElementById('mech-popovers-container');
+
+  // Function to close all popovers
+  function closeAllPopovers() {
+    popovers.forEach(p => {
+      if (p) p.classList.remove('active');
+    });
+    if (popoversContainer) {
+      popoversContainer.classList.remove('active');
+    }
+  }
+
+  // Setup event listeners for cards
+  cards.forEach(card => {
+    const idx = parseInt(card.getAttribute('data-index'), 10);
+    
+    // Mouseenter triggers simulator preview
+    card.addEventListener('mouseenter', () => {
+      cards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      updateSimulator(idx);
+    });
+
+    // Mouseleave ends simulator preview
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('active');
+      updateSimulator(null);
+    });
+
+    // Click opens the detailed popup
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeAllPopovers();
+      const popover = popovers[idx];
+      if (popover && popoversContainer) {
+        popoversContainer.classList.add('active');
+        popover.classList.add('active');
+      }
+    });
+  });
+
+  // Setup event listeners inside popovers
+  popovers.forEach(popover => {
+    if (!popover) return;
+    
+    // Stop propagation so clicking inside the popover does not bubble up and close it
+    popover.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Close button inside the popover
+    const closeBtn = popover.querySelector('.popover-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAllPopovers();
+      });
+    }
+  });
+
+  // Clicking on the backdrop overlay closes any active popover
+  if (popoversContainer) {
+    popoversContainer.addEventListener('click', (e) => {
+      closeAllPopovers();
+    });
+  }
+
+  // Initial render
+  updateSimulator(null);
+}
+
+// ═══════════════════════════════════════════════
+// REVEAL.JS INIT
+// ═══════════════════════════════════════════════
+Reveal.initialize({
+  hash: true,
+  slideNumber: () => [3, '/', 10],
+  transition: 'slide',
+  transitionSpeed: 'default',
+  backgroundTransition: 'fade',
+  controls: true,
+  progress: true,
+  center: false,
+  width: 1280,
+  height: 720,
+  margin: 0,
+  plugins: [],
+  keyboard: true,
+});
+
+Reveal.on('slidechanged', event => {
+  const idx = event.indexh;
+  // Slide 4 (0-indexed = 3) → Mott-Seitz
+  if (idx === 3) {
+    setTimeout(animateMottSeitz, 400);
+  }
+  // Slide 10 (0-indexed = 9) → matrix scanner
+  if (idx === 9) {
+    setTimeout(scanMatrix, 600);
+  }
+});
+
+// Re-run on fragment shown for MathJax
+Reveal.on('fragmentshown', () => {
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+});
+
+// Run MathJax and simulator after reveal is ready
+Reveal.on('ready', () => {
+  initQuenchingSimulator();
+  if (document.getElementById('ms-svg')) {
+    setTimeout(animateMottSeitz, 400);
+  }
+  if (document.getElementById('matrix-table')) {
+    setTimeout(scanMatrix, 600);
+  }
+  
+  // Guarantee MathJax rendering by polling for async load
+  let mathJaxPollCount = 0;
+  const mathJaxInterval = setInterval(() => {
+    mathJaxPollCount++;
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise();
+      clearInterval(mathJaxInterval);
+    } else if (mathJaxPollCount > 50) { // Timeout after 10 seconds
+      clearInterval(mathJaxInterval);
+    }
+  }, 200);
+});
+</script>
+
+<script>
+(function() {
+  const prevSlideUrl = 'presentacion_slide_2.html';
+  const nextSlideUrl = 'presentacion_slide_4.html';
+
+  function navigateTo(url) {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (event) => {
+    // Ignore if modifier keys are pressed or user is typing in a input (none here but safe practice)
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+
+    const key = event.key;
+    if (['ArrowRight', 'Space', 'PageDown', 'n', 'l'].includes(key)) {
+      event.preventDefault();
+      navigateTo(nextSlideUrl);
+    } else if (['ArrowLeft', 'PageUp', 'p', 'h'].includes(key)) {
+      event.preventDefault();
+      navigateTo(prevSlideUrl);
+    }
+  });
+
+  // Touch swipe navigation
+  let touchstartX = 0;
+  let touchendX = 0;
+  
+  window.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  window.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleGesture();
+  }, { passive: true });
+
+  function handleGesture() {
+    const threshold = 50; // pixels
+    if (touchendX < touchstartX - threshold) {
+      navigateTo(nextSlideUrl);
+    }
+    if (touchendX > touchstartX + threshold) {
+      navigateTo(prevSlideUrl);
+    }
+  }
+
+  // Click handler for Reveal.js controls
+  Reveal.on('ready', () => {
+    // We target the HTML buttons that Reveal.js displays
+    const leftControl = document.querySelector('.navigate-left');
+    const rightControl = document.querySelector('.navigate-right');
+
+    if (leftControl && prevSlideUrl) {
+      leftControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(prevSlideUrl);
+      }, true);
+    }
+    if (rightControl && nextSlideUrl) {
+      rightControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateTo(nextSlideUrl);
+      }, true);
+    }
+  });
+})();
+</script>
+</body>
+</html>
